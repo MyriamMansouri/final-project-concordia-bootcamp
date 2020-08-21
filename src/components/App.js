@@ -10,6 +10,7 @@ import GlobalStyle from "./GlobalStyle";
 import SignUp from "./SignUp";
 import LogIn from "./LogIn";
 import FourOhFour from "../pages/FourOhFour";
+import Homepage from "../pages/Homepage";
 
 const App = () => {
   return (
@@ -17,13 +18,16 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/">
-            Home
+            <Homepage/>
           </Route>
           <Route exact path="/login">
             <LogIn />
           </Route>
           <Route exact path="/signup">
             <SignUp />
+          </Route>
+          <Route exact path="/users/:userId">
+            My user
           </Route>
           <Route exact path="/*">
             <FourOhFour />

@@ -1,41 +1,81 @@
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 const passport = require("passport");
-
-const initializePassport = require("./passport-config");
-
-initializePassport(passport, (email) =>
-  users.find((user) => user.email === email)
-);
-
-const users = [];
+const User = require("./models/user");
 
 const getUsers = () => {};
 
-const getUser = () => {};
+const getUser = (req, res) => {
+  console.log(req.session.passport);
+  res.send(req.user);
+};
 
 const handleSignup = async (req, res) => {
   const { password, name, email } = req.body;
+
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    users.push({
-      _id: "id",
+
+    const user = new User({
+      _id: new mongoose.Types.ObjectId(),
       name,
       email,
       password: hashedPassword,
     });
-    res.redirect("/login");
+
+    await user.save();
+
+    res.status(201).json({
+      status: 201,
+      user: {
+        name,
+        email,
+      },
+      message: "success",
+    });
   } catch (err) {
-    res.redirect("/signup");
+    res.status(500).json({
+      status: 500,
+      user: {
+        name,
+        email,
+      },
+      message: "Cannot process the request",
+    });
   }
-  console.log(users);
 };
 
-const handleLogin = (req, res) => {
-    passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true
-    })
+const handleLogin = async (req, res) => {
+  passport.authenticate("local", function (err, user, message) {
+    if (err) {
+      return res
+        .status(500)
+        .json({ status: 500, message: "internal server error" });
+    }
+
+    if (!user) {
+      return res.status(401).json({ status: 401, message });
+    }
+
+    req.login(user, (err) => {
+      if (!err) {
+        res.status(200).json({
+          status: 200,
+          user,
+          message: "success",
+        });
+      } else {
+        return res
+          .status(500)
+          .json({ status: 500, message: "internal server error" });
+      }
+    });
+  })(req, res);
 };
 
-module.exports = { getUsers, getUser, handleSignup, handleLogin };
+const handleLogout = (req, res) => {
+  req.logout();
+  res.status(200).json({ status: 200, message: "success" });
+};
+
+module.exports = { getUsers, getUser, handleSignup, handleLogin, handleLogout };
