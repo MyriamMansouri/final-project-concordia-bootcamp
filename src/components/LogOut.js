@@ -1,17 +1,23 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { resetUser } from "../actions";
 
-const LogOut = ({ setIsLoggedIn }) => {
-  const handleClick = ({}) => {
-    fetch("/logout")
+import UnstyledButton from "./Buttons/UnstyledButton";
+
+const LogOut = () => {
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    fetch("/api/users/logout")
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
-          setIsLoggedIn(false);
+          dispatch(resetUser());
         }
       })
       .catch((err) => console.log(err));
   };
-  return <button onClick={handleClick}>Log out</button>;
+  return <UnstyledButton onClick={handleClick}>Log out</UnstyledButton>;
 };
 
 export default LogOut;

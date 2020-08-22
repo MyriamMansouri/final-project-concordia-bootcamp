@@ -7,7 +7,7 @@ const LogIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("/login", {
+    fetch("/api/users/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       credentials: "include",
@@ -19,9 +19,8 @@ const LogIn = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.status === 200) {
-          window.location.href = `/users/${data.user.name}`;
+          window.location.href = `/`;
         } else {
           throw new Error(data.message);
         }

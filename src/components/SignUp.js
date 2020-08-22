@@ -8,7 +8,7 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("/signup", {
+    fetch("/api/users/signup", {
       method: "POST",
       body: JSON.stringify({ email, password, name }),
       headers: {

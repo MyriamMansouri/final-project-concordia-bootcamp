@@ -2,19 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const morgan = require("morgan");
-const cors = require("cors");
 const flash = require("connect-flash");
 const session = require("express-session");
-require("dotenv").config();
 const initializePassport = require("./passport-config");
-
-const {
-  getUsers,
-  getUser,
-  handleSignup,
-  handleLogin,
-  handleLogout,
-} = require("./handlers");
+const users = require('./routes/users')
+require("dotenv").config();
 
 const PORT = process.env.PORT || 5678;
 
@@ -40,34 +32,9 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/api/users', users);
 
-function loggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res.redirect("/login");
-  }
-}
-
-// users CRUD
-app.get("/api/users", getUsers);
-app.get("/api/users/:userId", loggedIn, getUser);
-
-app.post("/signup", handleSignup);
-app.post("/login", handleLogin);
-app.get("/logout", handleLogout);
-
-app.get("/user", (req, res) => {
-  if (req.user) {
-    res.status(200).json({
-      status: 200,
-      user: { name: req.user.name, email: req.user.email },
-    });
-  } else {
-    res.status(204)
-  }
-});
-
+//404
 app.get("*", (req, res) => {
   res.status(404).json({
     status: 404,
