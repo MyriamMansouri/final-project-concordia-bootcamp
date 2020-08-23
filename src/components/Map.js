@@ -1,46 +1,18 @@
 import React from "react";
+import { initializeMap, updateUserPosition } from "./Map/helpers";
 
 const Map = () => {
-  
-    const [myMap, setMyMap] = React.useState(null);
-
-// reference to the div (works like document.getElementById)
-  const mapDiv = React.useRef(null);
+  // reference to the DOM (works like document.getElementById)
+  const mapRef = React.useRef(null);
 
   React.useEffect(() => {
-    const H = window.H;
+    // create default map object and place it on the DOM
+    const map = initializeMap(mapRef);
+    // event listener, recenters map if user moves (and geolocation is on)
+    updateUserPosition(map); 
+  }, [mapRef]);
 
-    const platform = new H.service.Platform({
-      apikey: process.env.REACT_APP_HERE_API_KEY,
-    });
-
-    // Obtain the default map types from the platform object:
-    const defaultLayers = platform.createDefaultLayers();
-
-    // Instantiate (and display) a map object:
-    const map = new H.Map(mapDiv.current, defaultLayers.vector.normal.map, {
-      zoom: 17,
-      center: { lat: 45.50, lng: -73.56 }, //Montréal
-    });
-    setMyMap({ map });
-
-    // update map when location changes
-    const  updatePosition = (e) => {
-      const coordinates = {
-        lat: e.coords.latitude,
-        lng: e.coords.longitude,
-      };
-      console.log(coordinates)
-
-      var marker = new H.map.Marker(coordinates);
-      map.addObject(marker);
-      map.setCenter(coordinates);
-    }
-    // browser builtin API that geolocates user
-    navigator.geolocation.watchPosition(updatePosition);
-  }, []);
-
-  return <div ref={mapDiv} style={{ height: "100vh" }} />;
+  return <div className="map" ref={mapRef} style={{ height: "100vh" }} />;
 };
 
 export default Map;
