@@ -6,6 +6,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const initializePassport = require("./passport-config");
 const users = require('./routes/users')
+const markers = require('./routes/markers')
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5678;
@@ -33,6 +34,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api/users', users);
+app.use('/api/markers', markers);
 
 //404
 app.get("*", (req, res) => {

@@ -42,7 +42,7 @@ router.post("/signup", async (req, res) => {
       if (!err) {
         res.status(201).json({
           status: 201,
-          user,
+          user: { name, email },
           message: "success",
         });
       } else {
@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
     }
 
     if (!user) {
-      return res.status(401).json({ status: 401, message });
+      return res.status(404).json({ status: 404, message });
     }
 
     req.login(user, (err) => {

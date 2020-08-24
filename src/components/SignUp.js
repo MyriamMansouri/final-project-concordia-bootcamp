@@ -1,6 +1,7 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import Button from "./Buttons/Button";
+import { Label, Input } from "./Forms/StyledFormComponents";
 const SignUp = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -19,6 +20,7 @@ const SignUp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (data.status === 201) {
           window.location.href = "/";
         } else {
@@ -28,12 +30,12 @@ const SignUp = () => {
       .catch((err) => console.log(err));
   };
   return (
-    <div>
+    <section>
       <h1>Sign up</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">What's your email</label>
-          <input
+          <Label htmlFor="email">What's your email</Label>
+          <Input
             id="email"
             name="email"
             type="email"
@@ -44,8 +46,8 @@ const SignUp = () => {
           />
         </div>
         <div>
-          <label htmlFor="password">Create a password</label>
-          <input
+          <Label htmlFor="password">Create a password</Label>
+          <Input
             id="password"
             name="password"
             type="password"
@@ -56,8 +58,8 @@ const SignUp = () => {
           />
         </div>
         <div>
-          <label htmlFor="name">What sould we call you</label>
-          <input
+          <Label htmlFor="name">What sould we call you</Label>
+          <Input
             id="name"
             name="name"
             value={name}
@@ -68,10 +70,10 @@ const SignUp = () => {
           />
         </div>
 
-        <button>SIGN UP</button>
+        <Button>SIGN UP</Button>
       </form>
       <Link to="/login">Log in</Link>
-    </div>
+    </section>
   );
 };
 

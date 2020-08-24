@@ -4,7 +4,7 @@ import { resetUser } from "../actions";
 
 import UnstyledButton from "./Buttons/UnstyledButton";
 
-const LogOut = () => {
+const LogOut = ({setOpen}) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -14,6 +14,7 @@ const LogOut = () => {
         if (data.status === 200) {
           dispatch(resetUser());
         }
+        setOpen(false)
       })
       .catch((err) => console.log(err));
   };

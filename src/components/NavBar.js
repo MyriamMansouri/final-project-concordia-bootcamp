@@ -5,7 +5,8 @@ import { checkIfLoggedIn } from "../reducers/user-reducer";
 import LogOut from "./LogOut";
 import Hamburger from "./Buttons/Hamburger";
 import styled from "styled-components";
-import { COLORS } from "./assets/styles";
+import { COLORS, SPACING } from "./assets/styles";
+
 
 const NavBar = () => {
   const isLoggedin = useSelector(checkIfLoggedIn);
@@ -32,7 +33,7 @@ const NavBar = () => {
 
           {isLoggedin && (
             <Li>
-              <LogOut />
+              <LogOut setOpen={setOpen} />
             </Li>
           )}
         </ul>
@@ -43,11 +44,14 @@ const NavBar = () => {
 
 const Nav = styled.nav`
   z-index: 80;
-  padding: 30px 20px;
+  padding: ${SPACING.spacing};
   color: #ffffff;
   background-color: ${COLORS.primary};
   width: 100%;
   height: 100vh;
+  position: absolute;
+  top:0;
+  right:0;
   box-sizing: border-box;
   position: absolute;
   left: 100%;

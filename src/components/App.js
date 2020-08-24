@@ -9,16 +9,16 @@ import LogIn from "./LogIn";
 import FourOhFour from "../pages/FourOhFour";
 import Homepage from "../pages/Homepage";
 import NavBar from "./NavBar";
+import { SPACING } from "./assets/styles";
 
 const App = () => {
   const dispatch = useDispatch();
-console.log('app')
+
   React.useEffect(() => {
     dispatch(requestUser());
     fetch("/api/users/user")
       .then((res) => res.json())
       .then((data) => {
-        
         if (data.status === 200) {
           dispatch(receiveUser(data.user));
         }
@@ -56,8 +56,9 @@ console.log('app')
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   position: relative;
   min-height:100vh;
+  box-sizing:border-box;
 `;
 export default App;

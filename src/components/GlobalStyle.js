@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { SPACING } from "./assets/styles";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -29,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+
 }
 ol, ul {
 	list-style: none;
@@ -44,6 +46,10 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+section {
+	padding:${SPACING.spacing}
 }
 `;
 

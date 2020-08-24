@@ -1,7 +1,8 @@
 import React from "react";
 import UnstyledButton from "./UnstyledButton";
 import styled from "styled-components";
-import { COLORS } from "../assets/styles";
+import { COLORS, SPACING } from "../assets/styles";
+
 
 const Hamburger = ({ open, setOpen }) => {
   return (
@@ -16,8 +17,10 @@ export default Hamburger;
 const NavBtn = styled(UnstyledButton)`
   cursor: pointer;
   float: right;
-  padding: 28px 20px;
-  position: relative;
+  padding: ${SPACING.spacing};
+  position: absolute;
+  top:0;
+  right:0;
   z-index: 99;
 `;
 const Navicon = styled.span`

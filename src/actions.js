@@ -15,3 +15,17 @@ export const requestUser = () => ({
   export const resetUser = () => ({
     type: "RESET_USER",
   });
+
+  
+export const requestMarkers = () => ({
+  type: "REQUEST_MARKERS",
+});
+
+export const receiveMarkers = (markers) => ({
+  type: "RECEIVE_MARKERS",
+  markers,
+});
+
+export const receiveMarkersError = () => ({
+  type: "RECEIVE_MARKERS_ERROR",
+});

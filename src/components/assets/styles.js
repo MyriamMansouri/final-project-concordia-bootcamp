@@ -3,3 +3,7 @@ export const COLORS = {
     secondary: '#84E6F8', // rose foncé
     cta: '#F51AA4' // jaune
 }
+
+export const SPACING = {
+    spacing: '30px 20px'
+}

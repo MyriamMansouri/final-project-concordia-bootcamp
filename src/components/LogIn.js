@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Button from "./Buttons/Button";
+import { Label, Input } from "./Forms/StyledFormComponents";
 
 const LogIn = () => {
   const [email, setEmail] = React.useState("");
@@ -15,7 +17,6 @@ const LogIn = () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-
     })
       .then((res) => res.json())
       .then((data) => {
@@ -29,12 +30,12 @@ const LogIn = () => {
   };
 
   return (
-    <div>
+    <section>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
-          <input
+          <Label htmlFor="email">Email</Label>
+          <Input
             id="email"
             name="email"
             type="email"
@@ -45,8 +46,8 @@ const LogIn = () => {
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
-          <input
+          <Label htmlFor="password">Password</Label>
+          <Input
             id="password"
             name="password"
             type="password"
@@ -57,10 +58,10 @@ const LogIn = () => {
           />
         </div>
 
-        <button>LOG IN</button>
+        <Button>LOG IN</Button>
       </form>
       <Link to="/signup">Sign up</Link>
-    </div>
+    </section>
   );
 };
 
