@@ -42,7 +42,7 @@ router.post("/signup", async (req, res) => {
       if (!err) {
         res.status(201).json({
           status: 201,
-          user: { name, email },
+          user: { name, email, _id },
           message: "success",
         });
       } else {
@@ -103,10 +103,10 @@ router.get("/user", (req, res) => {
   if (req.user) {
     res.status(200).json({
       status: 200,
-      user: { name: req.user.name, email: req.user.email },
+      user: { name: req.user.name, email: req.user.email, _id: req.user._id },
     });
   } else {
-    res.status(204);
+    res.status(204).send();
   }
 });
 

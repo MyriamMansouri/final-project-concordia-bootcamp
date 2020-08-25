@@ -6,7 +6,7 @@ import LogOut from "./LogOut";
 import Hamburger from "./Buttons/Hamburger";
 import styled from "styled-components";
 import { COLORS, SPACING } from "./assets/styles";
-
+import Card from "./Card";
 
 const NavBar = () => {
   const isLoggedin = useSelector(checkIfLoggedIn);
@@ -14,53 +14,43 @@ const NavBar = () => {
   return (
     <>
       <Hamburger open={open} setOpen={setOpen} />
-      <Nav className={open && "toggled"}>
-        <ul>
-          {!isLoggedin && (
-            <>
-              <Li>
-                <NavLink to="/signup" onClick={() => setOpen(!open)}>
-                  Sign up
-                </NavLink>
-              </Li>
-              <Li>
-                <NavLink to="/login" onClick={() => setOpen(!open)}>
-                  Log in
-                </NavLink>
-              </Li>
-            </>
-          )}
+      <Card open={open} style={styleCard} side='bottom'>
+        <nav>
+          <ul>
+            {!isLoggedin && (
+              <>
+                <Li>
+                  <NavLink to="/signup" onClick={() => setOpen(!open)}>
+                    Sign up
+                  </NavLink>
+                </Li>
+                <Li>
+                  <NavLink to="/login" onClick={() => setOpen(!open)}>
+                    Log in
+                  </NavLink>
+                </Li>
+              </>
+            )}
 
-          {isLoggedin && (
-            <Li>
-              <LogOut setOpen={setOpen} />
-            </Li>
-          )}
-        </ul>
-      </Nav>
+            {isLoggedin && (
+              <Li>
+                <LogOut setOpen={setOpen} />
+              </Li>
+            )}
+          </ul>
+        </nav>
+      </Card>
     </>
   );
 };
 
-const Nav = styled.nav`
-  z-index: 80;
-  padding: ${SPACING.spacing};
-  color: #ffffff;
-  background-color: ${COLORS.primary};
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top:0;
-  right:0;
-  box-sizing: border-box;
-  position: absolute;
-  left: 100%;
-  transition: left 600ms ease-out;
-  &.toggled {
-    background-color: ${COLORS.primary};
-    left: 0;
+// add custom style to card
+const styleCard = {
+  zIndex: '80',
+  color: '#ffffff',
+  backgroundColor: COLORS.primary,
   }
-`;
+ 
 const Li = styled.li`
   padding-bottom: 20px;
   > * {

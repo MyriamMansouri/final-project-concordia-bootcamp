@@ -19,7 +19,16 @@ const markersReducer = (state = initialState, action) => {
       return { ...state, status: "error" };
     }
     case "ADD_MARKER": {
-      return initialState;
+      return {
+        ...state,
+        currentMarkers: {
+          ...state.currentMarkers,
+          [action.marker._id]: {
+            ...action.marker,
+          },
+        },
+        status: "idle",
+      };
     }
     default: {
       return state;
@@ -30,5 +39,7 @@ const markersReducer = (state = initialState, action) => {
 export default markersReducer;
 
 export const getMarkers = (state) => {
-  return state.markers.currentMarkers;
+  return state.markers.currentMarkers
+    ? Object.values(state.markers.currentMarkers)
+    : null;
 };

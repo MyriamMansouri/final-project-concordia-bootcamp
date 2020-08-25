@@ -18,6 +18,13 @@ const userReducer = (state = initialState, action) => {
     case "RECEIVE_USER_ERROR": {
       return { ...state, status: "error" };
     }
+    case "ADD_USER": {
+      return {
+        ...state,
+        currentUser: action.user,
+        status: "idle",
+      };
+    }
     case "RESET_USER": {
       return initialState;
     }
@@ -33,3 +40,11 @@ export default userReducer;
 export const checkIfLoggedIn = (state) => {
   return state.user.currentUser ? true : false;
 };
+
+export const getStatus = (state) => {
+  return state.user.status 
+}
+
+export const getUser = (state) => {
+  return state.user.currentUser 
+}
