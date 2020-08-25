@@ -6,9 +6,9 @@ import {
   requestMarkers,
   receiveMarkers,
   receiveMarkersError,
-  addMarker,
 } from "../actions";
-import { getUser } from "../reducers/user-reducer";
+import MarkerForm from "./MarkerForm";
+import Spinner from "./Spinner";
 
 const containerStyle = {
   width: "100%",
@@ -18,40 +18,30 @@ const containerStyle = {
 const Map = () => {
   const dispatch = useDispatch();
   const markers = useSelector(getMarkers);
-  const user = useSelector(getUser);
 
   const [map, setMap] = React.useState(null);
-  const [center, setCenter] = React.useState({ lat: 45.5, lng: -73.56 }); //Montréal
+  const [open, setOpen] = React.useState(false);
+  const [center, setCenter] = React.useState({ lat: 45.5, lng: -73.56 }); //Montréal or user position
+  const [markerPosition, setMarkerPostion] = React.useState(null);
 
+  // on long tap open form to create new marker
   const onLongTouch = (e) => {
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
-    console.log(user)
-    fetch("/api/markers", {
-      method: "POST",
-      body: JSON.stringify({ lat, lng, userId: user._id }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        dispatch(addMarker(data.marker));
-      })
-      .catch((err) => console.log(err));
+    setMarkerPostion({ lat, lng });
+    setOpen(!open);
   };
 
+  // on map load add event listener for long tap event
+  // and add map to local state
   const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
+    // const bounds = new window.google.maps.LatLngBounds();
+    // map.fitBounds(bounds);
     setMap(map);
 
     let timer;
     map.addListener("mousedown", (e) => {
       if (!timer) {
-        console.log("toto");
         timer = setTimeout(() => onLongTouch(e), 1000);
       }
     });
@@ -65,10 +55,13 @@ const Map = () => {
     });
   }, []);
 
+  // unmount map
   const onUnmount = React.useCallback(() => {
     setMap(null);
   }, []);
 
+  // on component load, fetch markers from database
+  // and add user location
   React.useEffect(() => {
     // add saved markers to map
     dispatch(requestMarkers());
@@ -91,15 +84,21 @@ const Map = () => {
   }, []);
 
   return (
-    <LoadScript googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}>
+    <LoadScript
+      googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
+      loadingElement={<Spinner />}
+    >
       <GoogleMap
         mapContainerStyle={containerStyle}
-        zoom={20}
+        zoom={17}
         center={center}
         onLoad={onLoad}
         onUnmount={onUnmount}
+        options={{
+          fullscreenControl: false,
+        }}
       >
-        <Marker position={center} />
+        <Marker position={center} /> {/* current user position*/}
         {markers &&
           markers.map((marker) => (
             <Marker
@@ -108,6 +107,7 @@ const Map = () => {
             />
           ))}
       </GoogleMap>
+      <MarkerForm open={open} position={markerPosition} />
     </LoadScript>
   );
 };

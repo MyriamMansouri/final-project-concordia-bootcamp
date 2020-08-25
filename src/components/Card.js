@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { SPACING } from "./assets/styles";
 
+// side prop defines where the card slides from on toggle
 const Card = ({ open, side, children, style }) => {
   return (
     <CardDiv className={open && "toggled"} style={style} side={side}>
@@ -15,6 +16,7 @@ export default Card;
 export const CardDiv = styled.div`
   z-index: 70;
   padding: ${SPACING.spacing};
+  background-color:#ffffff;
   width: 100%;
   height: 100vh;
   position: absolute;
@@ -28,7 +30,7 @@ export const CardDiv = styled.div`
   &.toggled {
     top: ${(props) => (props.side === "top" ? 0 : null)};
     right: 0;
-    left: ${(props) => (props.side === "left" ? "0" : null)};
+    left: ${(props) => (props.side === "left" ? 0 : null)};
     bottom: 0;
   }
 `;

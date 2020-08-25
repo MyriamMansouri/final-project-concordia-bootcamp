@@ -5,7 +5,7 @@ import { checkIfLoggedIn } from "../reducers/user-reducer";
 import LogOut from "./LogOut";
 import Hamburger from "./Buttons/Hamburger";
 import styled from "styled-components";
-import { COLORS, SPACING } from "./assets/styles";
+import { COLORS } from "./assets/styles";
 import Card from "./Card";
 
 const NavBar = () => {
@@ -14,7 +14,7 @@ const NavBar = () => {
   return (
     <>
       <Hamburger open={open} setOpen={setOpen} />
-      <Card open={open} style={styleCard} side='bottom'>
+      <Card open={open} style={styleCard} side='right'>
         <nav>
           <ul>
             {!isLoggedin && (
@@ -45,6 +45,7 @@ const NavBar = () => {
 };
 
 // add custom style to card
+// regular js object -- not styled component
 const styleCard = {
   zIndex: '80',
   color: '#ffffff',
