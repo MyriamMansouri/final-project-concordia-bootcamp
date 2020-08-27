@@ -29,10 +29,6 @@ const Map = () => {
   const [markerPosition, setMarkerPostion] = React.useState(null);
   const [closeInfoBoxes, setCloseInfoBoxes] = React.useState(false);
 
-  const onLoad = React.useCallback(function callback(map) {
-    map.setOptions({ styles: mapStyles });
-  }, []);
-
   // on component load, fetch markers from database
   // and add user location
   React.useEffect(() => {
@@ -94,11 +90,11 @@ const Map = () => {
           mapContainerStyle={containerStyle}
           zoom={17}
           center={center}
-          onLoad={onLoad}
           options={{
             fullscreenControl: false,
             streetViewControl: false,
-            zoomControl: false
+            zoomControl: false,
+            styles: mapStyles
           }}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
