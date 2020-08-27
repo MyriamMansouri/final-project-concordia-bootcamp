@@ -3,7 +3,7 @@ import { addMarker } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/user-reducer";
 import styled from "styled-components";
-import Card from "./Card";
+import Card from "./Cards/Card";
 import Button from "./Buttons/Button";
 import { OutlinedClose } from "./Icons";
 import UnstyledButton from "./Buttons/UnstyledButton";
@@ -14,7 +14,7 @@ import Error from "./Error";
 const MarkerForm = ({ open, setOpen, position }) => {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
-  const [name, setName] = React.useState("");
+  const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [picture, setPicture] = React.useState(null);
   const [picUrl, setPicUrl] = React.useState("");
@@ -23,7 +23,7 @@ const MarkerForm = ({ open, setOpen, position }) => {
   const inputRef = React.useRef(null);
   // each time for reopened, fields are cleared
   React.useEffect(() => {
-    setName("");
+    setTitle("");
     setDescription("");
     setPicture(null);
     setPicUrl("");
@@ -35,8 +35,8 @@ const MarkerForm = ({ open, setOpen, position }) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("marker-pic", picture);
-    formData.append("name", name);
     formData.append("description", description);
+    formData.append("title", title);
     formData.append("lat", position.lat);
     formData.append("lng", position.lng);
     formData.append("userId", user._id);
@@ -93,14 +93,14 @@ const MarkerForm = ({ open, setOpen, position }) => {
               onChange={(e) => handlePicChange(e)}
             />
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="title">Title</Label>
               <Input
-                id="name"
-                name="name"
+                id="title"
+                name="title"
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Give a name to your pin"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Give a title to your pin"
                 required
               />
             </div>
@@ -109,7 +109,7 @@ const MarkerForm = ({ open, setOpen, position }) => {
               <Input
                 id="description"
                 name="description"
-                type="description"
+                type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Add a description"

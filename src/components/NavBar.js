@@ -6,7 +6,7 @@ import LogOut from "./LogOut";
 import Hamburger from "./Buttons/Hamburger";
 import styled from "styled-components";
 import { COLORS } from "./assets/styles";
-import Card from "./Card";
+import Card from "./Cards/Card";
 
 const NavBar = () => {
   const isLoggedin = useSelector(checkIfLoggedIn);

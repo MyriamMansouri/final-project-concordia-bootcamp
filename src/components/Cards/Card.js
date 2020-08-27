@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { SPACING } from "./assets/styles";
+import { SPACING } from "../assets/styles";
 
 // side prop defines where the card slides from on open
 // side can be equal to top, left, right, bottom
@@ -36,7 +36,6 @@ const Wrapper = styled.div`
   left: ${(props) => (props.side === "left" ? "-100%" : null)};
   bottom: ${(props) => (props.side === "bottom" ? "-100%" : null)};
   box-sizing: border-box;
-  position: absolute;
   transition: ${(props) => props.side} 250ms ease-out;
   &.toggled {
     background-color: rgba(0, 0, 0, 0.5);

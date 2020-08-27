@@ -1,6 +1,7 @@
 import React from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
+import LongPressable from "react-longpressable";
 import { getMarkers } from "../reducers/markers-reducer";
 import {
   requestMarkers,
@@ -10,6 +11,8 @@ import {
 import MarkerForm from "./MarkerForm";
 import Spinner from "./Spinner";
 import CustomMarker from "./CustomMarker";
+import userMarkerIcon from './assets/compass.svg'
+import markerIcon from './assets/placeholder.svg'
 
 const containerStyle = {
   width: "100%",
@@ -24,16 +27,7 @@ const Map = () => {
   const [open, setOpen] = React.useState(false); // open new marker form
   const [center, setCenter] = React.useState({ lat: 45.5, lng: -73.56 }); //Montréal or user position
   const [markerPosition, setMarkerPostion] = React.useState(null);
-  const [timer, setTimer] = React.useState(null);
   const [closeInfoBoxes, setCloseInfoBoxes] = React.useState(false);
-
-  // on long tap open form to create new marker
-  const onLongTouch = (e) => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    setMarkerPostion({ lat, lng });
-    setOpen(!open);
-  };
 
   // on map load add event listener for long tap event
   // and add map to local state
@@ -71,49 +65,70 @@ const Map = () => {
     }
   }, []);
 
+  // trigger infobox close when click anywhere outside infobox on the map
+  // reset closeInfoBoxes on mouse up
+  // get position of the click
   const handleMouseDown = (e) => {
+
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    setMarkerPostion({ lat, lng });
     setCloseInfoBoxes(true);
-    if (!timer) {
-      setTimer(setTimeout(() => onLongTouch(e), 1000));
-    }
+    console.log('yay')
   };
 
   const handleMouseUp = () => {
     setCloseInfoBoxes(false);
-    if (timer) {
-      setTimer(clearTimeout(timer));
-    }
-    setTimer(null);
   };
 
+  // open new marker form on longpress
+  const onLongPress = (e) => {
+    setOpen(!open);
+  };
+
+  const onShortPress = (e) => {
+    // error if I omit this function
+    // returns nothing - pschhhh the wind and the vast emptiness of the Tartar plains
+  };
 
   return (
     <LoadScript
       googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
       loadingElement={<Spinner />}
     >
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        zoom={17}
-        center={center}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-        options={{
-          fullscreenControl: false,
-        }}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
+      <LongPressable
+        onShortPress={onShortPress}
+        onLongPress={onLongPress}
+        longPressTime={700}
       >
-        <Marker position={center} /> {/* current user position*/}
-        {markers &&
-          markers.map((marker) => (
-            <CustomMarker
-              key={marker._id}
-              marker={marker}
-              closeInfoBoxes={closeInfoBoxes}
-            />
-          ))}
-      </GoogleMap>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          zoom={17}
+          center={center}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+          options={{
+            fullscreenControl: false,
+            enableEventPropagation: false,
+          }}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onChildClick={() => console.log('child click')}
+        >
+         >
+          <Marker position={center} icon={userMarkerIcon} animation={2} /> {/* current user position*/}
+          {markers &&
+            markers.map((marker) => (
+              <CustomMarker
+                key={marker._id}
+                marker={marker}
+                icon={markerIcon}
+                closeInfoBoxes={closeInfoBoxes}
+                setCloseInfoBoxes={setCloseInfoBoxes}
+              />
+            ))}
+        </GoogleMap>
+      </LongPressable>
       <MarkerForm open={open} setOpen={setOpen} position={markerPosition} />
     </LoadScript>
   );
