@@ -26,6 +26,7 @@ const Usericon = styled.img`
   width: 50px;
   height: 50px;
   transition: opacity 0.2s ease-out;
+  z-index: 71;
   &.toggled {
     opacity: 0;
   }
@@ -38,7 +39,7 @@ const NavBtn = styled(UnstyledButton)`
   right: 0;
   width: 50px;
   height: 50px;
-  z-index: 100;
+  z-index: 71;
 `;
 
  // if user is logged in, initial menu icon (the 3 stacked bars) has opacity = 0 

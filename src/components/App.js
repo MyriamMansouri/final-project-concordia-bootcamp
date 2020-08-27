@@ -58,7 +58,7 @@ const App = () => {
 
 const Wrapper = styled.main`
   position: relative;
-  min-height:100vh;
+  height:inherit;
   box-sizing:border-box;
 `;
 export default App;

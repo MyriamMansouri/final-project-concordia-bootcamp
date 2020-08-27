@@ -10,7 +10,6 @@ export default styled.button`
   outline:none;
   cursor: pointer;
   text-align: left;
-
   &:active {
     color: inherit;
   }

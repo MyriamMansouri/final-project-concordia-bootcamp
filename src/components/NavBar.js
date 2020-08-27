@@ -47,7 +47,7 @@ const NavBar = () => {
 // add custom style to card
 // regular js object -- not styled component
 const styleCard = {
-  zIndex: '80',
+  zIndex: 69,
   color: '#ffffff',
   backgroundColor: COLORS.primary,
   }

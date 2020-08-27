@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { SPACING } from "./assets/styles";
+import { COLORS, SPACING } from "./assets/styles";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -22,6 +22,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 	font-family: 'Roboto', sans-serif;
+	color: ${COLORS.text}
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 

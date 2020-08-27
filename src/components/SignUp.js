@@ -73,7 +73,7 @@ const SignUp = () => {
           />
         </div>
 
-        <Button>SIGN UP</Button>
+        <Button theme='accent' >SIGN UP</Button>
       </form>
       <Link to="/login">Log in</Link>
     </section>

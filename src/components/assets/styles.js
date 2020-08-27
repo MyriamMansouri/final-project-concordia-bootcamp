@@ -1,9 +1,11 @@
 export const COLORS = {
-    primary: '#6232C3', // violet foncé
-    secondary: '#84E6F8', // rose foncé
-    cta: '#F51AA4' // jaune
-}
+  text: "rgba(33, 33, 33, 1)",
+  lightText: "rgba(33, 33, 33, 0.1)",
+  primary: "#FF5252", // bleu foncé
+  accent: "#536DFE", // rose foncé
+  error: "crimson",
+};
 
 export const SPACING = {
-    spacing: '30px 20px'
-}
+  spacing: "30px 20px",
+};

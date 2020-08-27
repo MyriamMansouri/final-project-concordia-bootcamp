@@ -4,17 +4,20 @@ const passport = require("passport");
 const morgan = require("morgan");
 const flash = require("connect-flash");
 const session = require("express-session");
+const path = require("path");
 const initializePassport = require("./passport-config");
-const users = require('./routes/users')
-const markers = require('./routes/markers')
+const users = require("./routes/users");
+const markers = require("./routes/markers");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5678;
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).catch( err => console.log(err));
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .catch((err) => console.log(err));
 
 const app = express();
 
@@ -33,8 +36,9 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/api/users', users);
-app.use('/api/markers', markers);
+app.use("/images", express.static(path.join(__dirname, "../public/assets")));
+app.use("/api/users", users);
+app.use("/api/markers", markers);
 
 //404
 app.get("*", (req, res) => {

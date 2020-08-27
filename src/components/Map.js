@@ -9,6 +9,7 @@ import {
 } from "../actions";
 import MarkerForm from "./MarkerForm";
 import Spinner from "./Spinner";
+import CustomMarker from "./CustomMarker";
 
 const containerStyle = {
   width: "100%",
@@ -20,9 +21,11 @@ const Map = () => {
   const markers = useSelector(getMarkers);
 
   const [map, setMap] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false); // open new marker form
   const [center, setCenter] = React.useState({ lat: 45.5, lng: -73.56 }); //Montréal or user position
   const [markerPosition, setMarkerPostion] = React.useState(null);
+  const [timer, setTimer] = React.useState(null);
+  const [closeInfoBoxes, setCloseInfoBoxes] = React.useState(false);
 
   // on long tap open form to create new marker
   const onLongTouch = (e) => {
@@ -38,21 +41,6 @@ const Map = () => {
     // const bounds = new window.google.maps.LatLngBounds();
     // map.fitBounds(bounds);
     setMap(map);
-
-    let timer;
-    map.addListener("mousedown", (e) => {
-      if (!timer) {
-        timer = setTimeout(() => onLongTouch(e), 1000);
-      }
-    });
-
-    map.addListener("mouseup", (e) => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-
-      timer = null;
-    });
   }, []);
 
   // unmount map
@@ -83,6 +71,22 @@ const Map = () => {
     }
   }, []);
 
+  const handleMouseDown = (e) => {
+    setCloseInfoBoxes(true);
+    if (!timer) {
+      setTimer(setTimeout(() => onLongTouch(e), 1000));
+    }
+  };
+
+  const handleMouseUp = () => {
+    setCloseInfoBoxes(false);
+    if (timer) {
+      setTimer(clearTimeout(timer));
+    }
+    setTimer(null);
+  };
+
+
   return (
     <LoadScript
       googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
@@ -97,17 +101,20 @@ const Map = () => {
         options={{
           fullscreenControl: false,
         }}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
       >
         <Marker position={center} /> {/* current user position*/}
         {markers &&
           markers.map((marker) => (
-            <Marker
+            <CustomMarker
               key={marker._id}
-              position={{ lat: marker.lat, lng: marker.lng }}
+              marker={marker}
+              closeInfoBoxes={closeInfoBoxes}
             />
           ))}
       </GoogleMap>
-      <MarkerForm open={open} position={markerPosition} />
+      <MarkerForm open={open} setOpen={setOpen} position={markerPosition} />
     </LoadScript>
   );
 };
