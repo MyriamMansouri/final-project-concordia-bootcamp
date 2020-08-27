@@ -10,6 +10,10 @@ const markerSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  votes: {
+    type: Number,
+    default: 0
+  },
   url:String,
   title: String,
   description: String,

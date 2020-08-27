@@ -55,9 +55,33 @@ router.post("/", upload.single("marker-pic"), async (req, res) => {
     });
   } catch (err) {
     console.log("ERRORERROR::", err.name, err.message);
-    return res
-      .status(500)
-      .json({ status: 500, message: "Oops it didn't work - Please try again." });
+    return res.status(500).json({
+      status: 500,
+      message: "Oops it didn't work - Please try again.",
+    });
+  }
+});
+
+router.put("/:_id", async (req, res) => {
+  const { _id } = req.params;
+  const { votes } = req.body;
+
+  try {
+    const marker = await Marker.findById(_id);
+    marker.votes = marker.votes + votes;
+
+    await marker.save();
+    res.status(200).json({
+      status: 200,
+      marker,
+      message: "success",
+    });
+  } catch (err) {
+    console.log("ERRORERROR::", err.name, err.message);
+    return res.status(500).json({
+      status: 500,
+      message: "Oops it didn't work - Please try again.",
+    });
   }
 });
 

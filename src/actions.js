@@ -39,3 +39,10 @@ export const addMarker = (marker) => ({
   type: "ADD_MARKER",
   marker
 });
+
+export const voteMarker = (_id, voteValue) => ({
+  type: "VOTE_MARKER",
+  _id,
+  voteValue
+});
+

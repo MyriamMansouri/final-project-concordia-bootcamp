@@ -8,7 +8,7 @@ const Homepage = () => {
 
   return (
     <>
-      {!isLoggedin && <section>Homepage</section>}
+      {/*!isLoggedin && <section>Homepage</section>>>*/}
       {/*isLoggedin && <Map />*/}
       <Map />
     </>

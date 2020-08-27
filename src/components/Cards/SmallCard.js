@@ -9,7 +9,7 @@ const SmallCard = ({ children }) => {
 export default SmallCard;
 
 const CardDiv = styled.div`
-  width: 200px;
+  width: 300px;
   min-height: 200px;
   display: flex;
   flex-flow: column nowrap;
