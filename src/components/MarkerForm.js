@@ -9,6 +9,7 @@ import { OutlinedClose } from "./Icons";
 import UnstyledButton from "./Buttons/UnstyledButton";
 import { COLORS } from "./assets/styles";
 import { Label, Input } from "./Forms/StyledFormComponents";
+import Img from "./Misc/Img";
 import InputPicture from "./Forms/InputPicture";
 import Error from "./Error";
 
@@ -53,7 +54,10 @@ const MarkerForm = ({ open, setOpen, position }) => {
           dispatch(addMarker(data.marker));
           fetch(`/api/users/${_id}`, {
             method: "PUT",
-            body: JSON.stringify({ createdMarker: data.marker._id }),
+            body: JSON.stringify({
+              action: "create",
+              markerId: data.marker._id,
+            }),
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
@@ -136,14 +140,6 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
-`;
-
-const Img = styled.div`
-  border: 1px solid ${COLORS.text};
-  height: inherit;
-  background: url(${(props) => props.url}) center no-repeat ${COLORS.lightText};
-  background-size: cover;
-  height: 300px;
 `;
 
 const CloseBtn = styled(UnstyledButton)`

@@ -36,7 +36,7 @@ const LogIn = () => {
           dispatch(receiveUser(data.user));
           window.location.href = `/`;
         } else {
-         throw {message : data.message}
+         throw Error ({message : data.message})
         }
       })
       .catch((err) => dispatch(receiveUserError(err)));

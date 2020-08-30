@@ -147,19 +147,19 @@ router.get("/:_id", async (req, res) => {
 
 router.put("/:_id", async (req, res) => {
   const { _id } = req.params;
-  const { createdMarker, vote, markerId } = req.body;
+  const { action, markerId } = req.body;
 
   try {
     let user = null;
-    if (createdMarker) {
+    if (action === 'create') {
       user = await User.findByIdAndUpdate(
         _id,
-        { $set: { [`upvoteUsers.${userId}`]: true } },
+        { $set: { [`createdMarkers.${markerId}`]: true } },
         { new: true }
+
       );
     }
-
-    if (vote === "up") {
+    if (action === "upvote") {
       user = await User.findByIdAndUpdate(
         _id,
         {
@@ -168,7 +168,7 @@ router.put("/:_id", async (req, res) => {
         },
         { multi: true, new: true }
       );
-    } else if (vote === "down") {
+    } else if (action === "downvote") {
       // user already upvoted pin ?
       user = await User.findByIdAndUpdate(
         _id,

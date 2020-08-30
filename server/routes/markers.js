@@ -74,7 +74,7 @@ router.post("/", upload.single("marker-pic"), async (req, res) => {
 
 router.put("/:_id", async (req, res) => {
   const { _id } = req.params;
-  const { vote, userId } = req.body;
+  const { action, userId } = req.body;
 
   try {
     // add user according to her new vote and remove her from another vote if any
@@ -82,7 +82,7 @@ router.put("/:_id", async (req, res) => {
     // vote
     let marker = null;
     
-    if (vote === "up") {
+    if (action === "upvote") {
       marker = await Marker.findByIdAndUpdate(
         _id,
         {
@@ -91,7 +91,7 @@ router.put("/:_id", async (req, res) => {
         },
         { multi: true, new: true }
       );
-    } else if (vote === "down") {
+    } else if (action === "downvote") {
       // user already upvoted pin ?
       marker = await Marker.findByIdAndUpdate(
         _id,

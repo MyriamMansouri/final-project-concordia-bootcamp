@@ -17,11 +17,6 @@ export const requestUser = () => ({
     type: "ADD_USER",
     user
   });
-    export const addUserError = (error) => ({
-    type: "ADD_USER_ERROR",
-    error
-  });
-
   export const updateUser = (user) => ({
     type: "UPDATE_USER",
     user

@@ -5,7 +5,6 @@ const initialState = {
 };
 
 const userReducer = (state = initialState, action) => {
-
   switch (action.type) {
     case "REQUEST_USER": {
       return { ...state, status: "loading", error: null };
@@ -27,14 +26,6 @@ const userReducer = (state = initialState, action) => {
         currentUser: action.user,
         status: "idle",
         error: null,
-      };
-    }
-    case "ADD_USER_ERROR": {
-      return {
-        ...state,
-        currentUser: null,
-        status: "error",
-        error: action.error,
       };
     }
     case "UPDATE_USER": {

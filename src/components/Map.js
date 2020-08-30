@@ -47,23 +47,20 @@ const Map = () => {
         lng: position.coords.longitude,
       });
     };
-    
+     let userPosition = null;
     //if geolocation allowed, set marker to user position
     if ("geolocation" in navigator) {
-      navigator.geolocation.watchPosition(listener);
+      userPosition = navigator.geolocation.watchPosition(listener);
     }
 
     //cleanup function
-    return (listener) => {
-      navigator.geolocation.clearWatch(listener);
+    return () => {
+      if (userPosition) navigator.geolocation.clearWatch(userPosition);
     };
-  }, [dispatch]);
+  }, [dispatch, map]);
 
   const handleLoad = React.useCallback(function callback(map) {
     setMap(map);
-  }, []);
-  const handleUnmount = React.useCallback(function callback(map) {
-    setMap(null);
   }, []);
 
   // trigger infobox close when click anywhere outside infobox on the map
@@ -113,7 +110,6 @@ const Map = () => {
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onLoad={handleLoad}
-          onUnmount={handleUnmount}
         >
           {/* current user position*/}
           <Marker position={center} icon={userMarkerIcon} animation={2} />

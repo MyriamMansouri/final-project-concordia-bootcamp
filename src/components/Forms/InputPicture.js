@@ -27,6 +27,7 @@ const InputPicture = ({ setPicture, setPicUrl }) => {
       type="file"
       name="marker-pic"
       onChange={(e) => handlePicChange(e)}
+      required
     />
   );
 };

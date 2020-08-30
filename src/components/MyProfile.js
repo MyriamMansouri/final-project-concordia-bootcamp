@@ -1,13 +1,11 @@
-import React from 'react'
-import Profile from './Profile'
-import { useSelector } from 'react-redux'
-import { getUser } from '../reducers/user-reducer'
+import React from "react";
+import Profile from "./Profile/Profile";
+import { useSelector } from "react-redux";
+import { getUser } from "../reducers/user-reducer";
 
-const MyProfile = () =>{
-    const currentUser = useSelector(getUser)
-    return <>Hello {currentUser && <Profile user={currentUser}/>}</>
+const MyProfile = () => {
+  const currentUser = useSelector(getUser);
+  return <> {currentUser && <Profile user={currentUser} />}</>;
+};
 
-
-}
-
-export default MyProfile    
+export default MyProfile;

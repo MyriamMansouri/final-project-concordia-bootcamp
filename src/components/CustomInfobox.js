@@ -6,12 +6,13 @@ import { getUser } from "../reducers/user-reducer";
 import { voteMarker, updateUser } from "../actions";
 import SmallCard from "./Cards/SmallCard";
 import VoteBtn from "./Buttons/VoteBtn";
+import Img from './Misc/Img'
 import { COLORS } from "./assets/styles";
 
 const CustomInfobox = ({ marker }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(getUser);
-  console.log(currentUser);
+
   const {
     lat,
     lng,
@@ -31,7 +32,7 @@ const CustomInfobox = ({ marker }) => {
     if (vote) {
       fetch(`api/markers/${_id}`, {
         method: "PUT",
-        body: JSON.stringify({ vote, userId: currentUser._id }),
+        body: JSON.stringify({ action :vote, userId: currentUser._id }),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -44,7 +45,7 @@ const CustomInfobox = ({ marker }) => {
             // update
             fetch(`api/users/${currentUser._id}`, {
               method: "PUT",
-              body: JSON.stringify({ vote, markerId: _id }),
+              body: JSON.stringify({ action : vote, markerId: _id }),
               headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -63,19 +64,19 @@ const CustomInfobox = ({ marker }) => {
 
   const onLoad = () => {
     UpvoteRef.current.addEventListener("click", function () {
-      setVote("up");
+      setVote("upvote");
     });
     DownvoteRef.current.addEventListener("click", function () {
-      setVote("down");
+      setVote("downvote");
     });
   };
 
   const onUnmount = () => {
     UpvoteRef.current.removeEventListener("click", function () {
-      setVote("up");
+      setVote("upvote");
     });
     DownvoteRef.current.removeEventListener("click", function () {
-      setVote("down");
+      setVote("downvote");
     });
   };
 
@@ -107,10 +108,9 @@ const CustomInfobox = ({ marker }) => {
       onUnmount={onUnmount}
     >
       <SmallCard>
-        {url && <Img src={url} alt="Marker illustrative pic" />}
+        {url && <Img url={url} />}
         <Wrapper>
           <TextWrapper>
-            {" "}
             <Title>{title}</Title> <p>{description}</p>
           </TextWrapper>
 
@@ -136,11 +136,6 @@ const CustomInfobox = ({ marker }) => {
     </InfoBox>
   );
 };
-
-const Img = styled.img`
-  width: 270px;
-  height: 200px;
-`;
 
 const Title = styled.h2`
   font-weight: bold;

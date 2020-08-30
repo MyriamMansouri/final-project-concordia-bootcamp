@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { requestUser, receiveUser, receiveUserError } from "../actions";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import GlobalStyle from "./GlobalStyle";
 import SignUp from "./SignUp";
@@ -18,31 +12,7 @@ import MyProfile from "./MyProfile";
 import { checkIfLoggedIn } from "../reducers/user-reducer";
 
 const App = () => {
-  const dispatch = useDispatch();
   const isLoggedIn = useSelector(checkIfLoggedIn);
-
-  React.useEffect(() => {
-    dispatch(requestUser());
-    fetch("/api/users/user")
-      .then((res) => {
-        if (res.status !== 204) {
-          return res.json();
-        } else {
-          return null;
-        }
-      })
-      .then((data) => {
-        if (data && data.status === 200) {
-          dispatch(receiveUser(data.user));
-        } else {
-          dispatch(receiveUser());
-        }
-      })
-      .catch((err) => {
-        dispatch(receiveUserError());
-        console.log(err);
-      });
-  }, []);
 
   return (
     <Wrapper>
@@ -59,7 +29,7 @@ const App = () => {
             <SignUp />
           </Route>
           <Route exact path="/users/me">
-            <MyProfile /> 
+            {isLoggedIn ? <MyProfile /> : <Homepage />}
           </Route>
           <Route exact path="/users/:userId">
             Profile
