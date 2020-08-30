@@ -1,57 +1,88 @@
 import React from "react";
 import { InfoBox } from "@react-google-maps/api";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { voteMarker } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../reducers/user-reducer";
+import { voteMarker, updateUser } from "../actions";
 import SmallCard from "./Cards/SmallCard";
 
 import VoteBtn from "./Buttons/VoteBtn";
 
 const CustomInfobox = ({ marker }) => {
   const dispatch = useDispatch();
-  const { lat, lng, url, title, description, _id, votes } = marker;
-  const [voteValue, setVoteValue] = React.useState(0);
+  const currentUser = useSelector(getUser);
 
+  const {
+    lat,
+    lng,
+    url,
+    title,
+    description,
+    _id,
+    upvoteUsers,
+    downvoteUsers,
+  } = marker;
+
+  const [vote, setVote] = React.useState(null);
   const UpvoteRef = React.useRef(null);
   const DownvoteRef = React.useRef(null);
 
   React.useEffect(() => {
-    fetch(`api/markers/${_id}`, {
-      method: "PUT",
-      body: JSON.stringify({ votes: voteValue }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 200) {
-          setVoteValue(0);
-          dispatch(voteMarker(data.marker._id, voteValue));
-        } else {
-          throw data.message;
-        }
+    if (vote) {
+      fetch(`api/markers/${_id}`, {
+        method: "PUT",
+        body: JSON.stringify({ vote, userId: currentUser._id }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
       })
-      .catch((err) => console.log(err));
-  }, [voteValue]);
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            dispatch(voteMarker(data.marker));
+            // update
+            fetch(`api/users/${currentUser._id}`, {
+              method: "PUT",
+              body: JSON.stringify({ vote, markerId: _id }),
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => dispatch(updateUser(data.user)))
+              .catch((err) => console.log(err));
+          } else {
+            throw data.message;
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [vote]);
 
   const onLoad = () => {
     UpvoteRef.current.addEventListener("click", function () {
-      setVoteValue(1);
+      setVote("up");
     });
     DownvoteRef.current.addEventListener("click", function () {
-      setVoteValue(-1);
+      setVote("down");
     });
   };
 
   const onUnmount = () => {
     UpvoteRef.current.removeEventListener("click", function () {
-      setVoteValue(1);
+      setVote("up");
     });
     DownvoteRef.current.removeEventListener("click", function () {
-      setVoteValue(-1);
+      setVote("down");
     });
+  };
+
+  const votes = () => {
+    const upvotes = upvoteUsers ? Object.keys(upvoteUsers).length : 0;
+    const downvotes = downvoteUsers ? Object.keys(downvoteUsers).length : 0;
+    return upvotes - downvotes;
   };
 
   return (
@@ -67,7 +98,7 @@ const CustomInfobox = ({ marker }) => {
       <SmallCard>
         {url && <Img src={url} alt="Marker illustrative pic" />}
         <VoteBtn ref={UpvoteRef}>Up</VoteBtn>
-        {votes}
+        {votes()}
         <VoteBtn ref={DownvoteRef}>Down</VoteBtn>
         <Title>{title}</Title>
         <p>{description}</p>

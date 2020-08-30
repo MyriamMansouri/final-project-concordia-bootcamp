@@ -21,10 +21,19 @@ const upload = multer({ storage });
 router.get("/", async (req, res) => {
   try {
     const markers = await Marker.find().exec();
-    //tranform markers into an object. Easier to handle in the reducer
+
     const markersObj = {};
-    markers.forEach((marker) => (markersObj[marker._id] = marker));
-    res.status(200).json({ status: 200, markers: markersObj });
+    if (markers.length > 0) {
+      //tranform markers into an object. Easier to handle in the reducer
+
+      markers.forEach((marker) => {
+        markersObj[marker._id] = marker;
+      });
+    }
+
+    res
+      .status(200)
+      .json({ status: 200, markers: markers.length > 0 ? markersObj : null });
   } catch (err) {
     console.log("ERRORERROR::", err.name, err.message);
     return res
@@ -48,6 +57,7 @@ router.post("/", upload.single("marker-pic"), async (req, res) => {
       url: url + "/images/" + req.file.filename,
     });
     await marker.save();
+    console.log(marker);
     res.status(201).json({
       status: 201,
       marker,
@@ -64,16 +74,38 @@ router.post("/", upload.single("marker-pic"), async (req, res) => {
 
 router.put("/:_id", async (req, res) => {
   const { _id } = req.params;
-  const { votes } = req.body;
+  const { vote, userId } = req.body;
 
   try {
-    const marker = await Marker.findById(_id);
-    marker.votes = marker.votes + votes;
+    // add user according to her new vote and remove her from another vote if any
+    // options: { multi: true, new: true } allow multiple xriteria for update and retrieve document with updates
+    // vote
+    let marker = null;
+    
+    if (vote === "up") {
+      marker = await Marker.findByIdAndUpdate(
+        _id,
+        {
+          $unset: { [`downvoteUsers.${userId}`]: true },
+          $set: { [`upvoteUsers.${userId}`]: true },
+        },
+        { multi: true, new: true }
+      );
+    } else if (vote === "down") {
+      // user already upvoted pin ?
+      marker = await Marker.findByIdAndUpdate(
+        _id,
+        {
+          $unset: { [`upvoteUsers.${userId}`]: true },
+          $set: { [`downvoteUsers.${userId}`]: true },
+        },
+        { multi: true, new: true }
+      );
+    }
 
-    await marker.save();
     res.status(200).json({
       status: 200,
-      marker,
+      marker: marker,
       message: "success",
     });
   } catch (err) {

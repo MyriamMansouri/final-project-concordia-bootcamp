@@ -1,16 +1,24 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { checkIfLoggedIn } from "../../reducers/user-reducer";
+import { checkIfLoggedIn, getUser } from "../../reducers/user-reducer";
 import UnstyledButton from "./UnstyledButton";
 import styled from "styled-components";
-import { COLORS, SPACING } from "../assets/styles";
+import { COLORS } from "../assets/styles";
 
 const Hamburger = ({ open, setOpen }) => {
   const isLoggedin = useSelector(checkIfLoggedIn);
+  const currentUser = useSelector(getUser);
   return (
     <NavBtn onClick={() => setOpen(!open)}>
       {isLoggedin && (
-        <Usericon className={open && "toggled"} src="/assets/user.png" />
+        <Usericon
+          className={open && "toggled"}
+          src={
+            isLoggedin && currentUser.avatarUrl
+              ? currentUser.avatarUrl
+              : "/assets/avatars/default-user.png"
+          }
+        />
       )}
       <Navicon className={open && "toggled"} isLoggedin={isLoggedin} />
     </NavBtn>
@@ -42,8 +50,8 @@ const NavBtn = styled(UnstyledButton)`
   z-index: 71;
 `;
 
- // if user is logged in, initial menu icon (the 3 stacked bars) has opacity = 0 
- // the part of the icon menu animation which  creates a close icon is reused with user profile picture
+// if user is logged in, initial menu icon (the 3 stacked bars) has opacity = 0
+// the part of the icon menu animation which  creates a close icon is reused with user profile picture
 const Navicon = styled.span`
   background: ${COLORS.primary};
   display: block;

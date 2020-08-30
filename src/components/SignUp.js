@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "./Buttons/Button";
-import { Label, Input } from "./StyledFormComponents";
-import { useDispatch } from "react-redux";
-import { addUser } from "../actions";
+import { Label, Input } from "./Forms/StyledFormComponents";
+import { useDispatch, useSelector } from "react-redux";
+import { getError } from "../reducers/user-reducer";
+import { addUser, addUserError } from "../actions";
+import Error from "./Error";
+
 const SignUp = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const error = useSelector(getError);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
@@ -23,14 +27,15 @@ const SignUp = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (data.status === 201) {
-          dispatch(addUser(data.user))
+          dispatch(addUser(data.user));
           window.location.href = "/";
         } else {
-          throw new Error(data.message);
+          throw { message: data.message };
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => dispatch(addUserError(err)));
   };
   return (
     <section>
@@ -73,9 +78,10 @@ const SignUp = () => {
           />
         </div>
 
-        <Button theme='accent' >SIGN UP</Button>
+        <Button theme="accent">SIGN UP</Button>
       </form>
       <Link to="/login">Log in</Link>
+      {error && <Error>{error.message}</Error>}
     </section>
   );
 };

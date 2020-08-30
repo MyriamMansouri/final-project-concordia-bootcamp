@@ -8,12 +8,22 @@ export const requestUser = () => ({
     user,
   });
   
-  export const receiveUserError = () => ({
+  export const receiveUserError = (error) => ({
     type: "RECEIVE_USER_ERROR",
+    error
   });
   
   export const addUser = (user) => ({
-    type: "RESET_USER",
+    type: "ADD_USER",
+    user
+  });
+    export const addUserError = (error) => ({
+    type: "ADD_USER_ERROR",
+    error
+  });
+
+  export const updateUser = (user) => ({
+    type: "UPDATE_USER",
     user
   });
 
@@ -31,8 +41,9 @@ export const receiveMarkers = (markers) => ({
   markers,
 });
 
-export const receiveMarkersError = () => ({
+export const receiveMarkersError = (error) => ({
   type: "RECEIVE_MARKERS_ERROR",
+  error
 });
 
 export const addMarker = (marker) => ({
@@ -40,9 +51,8 @@ export const addMarker = (marker) => ({
   marker
 });
 
-export const voteMarker = (_id, voteValue) => ({
+export const voteMarker = (marker) => ({
   type: "VOTE_MARKER",
-  _id,
-  voteValue
+  marker
 });
 

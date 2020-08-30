@@ -13,6 +13,7 @@ const LogOut = ({setOpen}) => {
       .then((data) => {
         if (data.status === 200) {
           dispatch(resetUser());
+          window.location.href='/'
         }
         setOpen(false)
       })

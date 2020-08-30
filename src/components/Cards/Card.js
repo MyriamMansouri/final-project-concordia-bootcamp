@@ -24,24 +24,27 @@ const Card = ({ open, side, backdrop, hasPriority, children, style }) => {
 export default Card;
 
 const Wrapper = styled.div`
-  z-index: ${(props) => (props.hasPriority === true ? 1000 : null)};
+  z-index: ${(props) =>
+    props.hasPriority && props.hasPriority === true ? 1000 : null};
   width: 100%;
   height: 100%;
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: ${(props) => (props.side === "top" ? "-100%" : null)};
-  right: ${(props) => (props.side === "right" ? "-100%" : null)};
-  left: ${(props) => (props.side === "left" ? "-100%" : null)};
-  bottom: ${(props) => (props.side === "bottom" ? "-100%" : null)};
+  top: ${(props) => (props.side && props.side === "top" ? "-100%" : null)};
+  right: ${(props) => (props.side && props.side === "right" ? "-100%" : null)};
+  left: ${(props) => (props.side && props.side === "left" ? "-100%" : null)};
+  bottom: ${(props) =>
+    props.side && props.side === "bottom" ? "-100%" : null};
   box-sizing: border-box;
-  transition: ${(props) => props.side} 250ms ease-out;
+  transition: ${(props) => (props.side && props.side ? props.side : "")} 250ms
+    ease-out;
   &.toggled {
     background-color: rgba(0, 0, 0, 0.5);
-    top: ${(props) => (props.side === "top" ? 0 : null)};
+    top: ${(props) => (props.side && props.side === "top" ? 0 : null)};
     right: 0;
-    left: ${(props) => (props.side === "left" ? 0 : null)};
+    left: ${(props) => (props.side && props.side === "left" ? 0 : null)};
     bottom: 0;
   }
 `;
@@ -52,9 +55,10 @@ const CardDiv = styled.div`
   background-color: #ffffff;
   display: flex;
   overflow-x: scroll;
-  width: ${(props) => (props.backdrop === true ? "calc(100% - 20px)" : "100%")};
+  width: ${(props) =>
+    props.backdrop && props.backdrop === true ? "calc(100% - 20px)" : "100%"};
   height: ${(props) =>
-    props.backdrop === true ? "calc(100% - 20px)" : "100%"};
+    props.backdrop && props.backdrop === true ? "calc(100% - 20px)" : "100%"};
   padding: ${SPACING.spacing};
   box-sizing: border-box;
 `;

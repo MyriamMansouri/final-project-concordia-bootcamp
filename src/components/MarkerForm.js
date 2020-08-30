@@ -1,5 +1,5 @@
 import React from "react";
-import { addMarker } from "../actions";
+import { addMarker, updateUser } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/user-reducer";
 import styled from "styled-components";
@@ -8,19 +8,21 @@ import Button from "./Buttons/Button";
 import { OutlinedClose } from "./Icons";
 import UnstyledButton from "./Buttons/UnstyledButton";
 import { COLORS } from "./assets/styles";
-import { Label, Input } from "./StyledFormComponents";
+import { Label, Input } from "./Forms/StyledFormComponents";
+import InputPicture from "./Forms/InputPicture";
 import Error from "./Error";
 
 const MarkerForm = ({ open, setOpen, position }) => {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
+  const { _id } = user;
+
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [picture, setPicture] = React.useState(null);
   const [picUrl, setPicUrl] = React.useState("");
   const [error, setError] = React.useState("");
 
-  const inputRef = React.useRef(null);
   // each time for reopened, fields are cleared
   React.useEffect(() => {
     setTitle("");
@@ -28,7 +30,6 @@ const MarkerForm = ({ open, setOpen, position }) => {
     setPicture(null);
     setPicUrl("");
     setError("");
-    if (inputRef) inputRef.current.value = "";
   }, [open]);
 
   const onSubmit = (e) => {
@@ -39,7 +40,7 @@ const MarkerForm = ({ open, setOpen, position }) => {
     formData.append("title", title);
     formData.append("lat", position.lat);
     formData.append("lng", position.lng);
-    formData.append("userId", user._id);
+    formData.append("userId", _id);
 
     fetch("/api/markers", {
       method: "POST",
@@ -50,27 +51,27 @@ const MarkerForm = ({ open, setOpen, position }) => {
       .then((data) => {
         if (data.status === 201) {
           dispatch(addMarker(data.marker));
+          fetch(`/api/users/${_id}`, {
+            method: "PUT",
+            body: JSON.stringify({ createdMarker: data.marker._id }),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.status === 200) {
+                dispatch(updateUser(data.user));
+              }
+            })
+            .catch((err) => console.log(err));
           setOpen(false);
         } else {
           setError(data.message);
         }
       })
       .catch((err) => console.log(err));
-  };
-
-  // get url to preview image
-  const handlePicChange = (e) => {
-    const currPicture = e.target.files[0];
-    if (currPicture) {
-      const reader = new FileReader();
-      function handleLoad() {
-        setPicUrl(this.result);
-        reader.removeEventListener("load", handleLoad);
-      }
-      reader.addEventListener("load", handleLoad);
-      setPicture(currPicture);
-      reader.readAsDataURL(currPicture);
-    }
   };
 
   return (
@@ -86,12 +87,9 @@ const MarkerForm = ({ open, setOpen, position }) => {
           <Img url={picUrl} />
 
           <form onSubmit={onSubmit} encType="multipart/form-data">
-            <InputFile
-              ref={inputRef}
-              type="file"
-              name="marker-pic"
-              onChange={(e) => handlePicChange(e)}
-            />
+            {open && (
+              <InputPicture setPicture={setPicture} setPicUrl={setPicUrl} />
+            )}
             <div>
               <Label htmlFor="title">Title</Label>
               <Input
@@ -122,7 +120,6 @@ const MarkerForm = ({ open, setOpen, position }) => {
         <CloseBtn onClick={() => setOpen(false)}>
           <OutlinedClose />
         </CloseBtn>
-
       </Card>
     </Wrapper>
   );
@@ -148,9 +145,7 @@ const Img = styled.div`
   background-size: cover;
   height: 300px;
 `;
-const InputFile = styled.input`
-  margin: 10px 0;
-`;
+
 const CloseBtn = styled(UnstyledButton)`
   color: ${COLORS.text};
   margin: 0 auto;

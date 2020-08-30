@@ -23,7 +23,7 @@ const containerStyle = {
 const Map = () => {
   const dispatch = useDispatch();
   const markers = useSelector(getMarkers);
-
+  const [map, setMap] = React.useState(null);
   const [open, setOpen] = React.useState(false); // open new marker form
   const [center, setCenter] = React.useState({ lat: 45.5, lng: -73.56 }); //Montréal or user position
   const [markerPosition, setMarkerPostion] = React.useState(null);
@@ -41,15 +41,29 @@ const Map = () => {
       })
       .catch((err) => dispatch(receiveMarkersError()));
 
+    const listener = (position) => {
+      setCenter({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    };
+    
     //if geolocation allowed, set marker to user position
     if ("geolocation" in navigator) {
-      navigator.geolocation.watchPosition((position) => {
-        setCenter({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      });
+      navigator.geolocation.watchPosition(listener);
     }
+
+    //cleanup function
+    return (listener) => {
+      navigator.geolocation.clearWatch(listener);
+    };
+  }, [dispatch]);
+
+  const handleLoad = React.useCallback(function callback(map) {
+    setMap(map);
+  }, []);
+  const handleUnmount = React.useCallback(function callback(map) {
+    setMap(null);
   }, []);
 
   // trigger infobox close when click anywhere outside infobox on the map
@@ -94,10 +108,12 @@ const Map = () => {
             fullscreenControl: false,
             streetViewControl: false,
             zoomControl: false,
-            styles: mapStyles
+            styles: mapStyles,
           }}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
+          onLoad={handleLoad}
+          onUnmount={handleUnmount}
         >
           {/* current user position*/}
           <Marker position={center} icon={userMarkerIcon} animation={2} />

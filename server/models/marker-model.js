@@ -10,14 +10,23 @@ const markerSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  votes: {
-    type: Number,
-    default: 0
-  },
+
   url:String,
   title: String,
   description: String,
   userId: String,
+
+  upvoteUsers: {
+    type:Object,
+    default:{}
+  },
+
+  downvoteUsers: {
+    type:Object,
+    default:{}
+  }
+
+
 });
 
 module.exports = mongoose.model("Marker", markerSchema, "markers");

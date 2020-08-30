@@ -4,7 +4,6 @@ const initialState = {
 };
 
 const markersReducer = (state = initialState, action) => {
-
   switch (action.type) {
     case "REQUEST_MARKERS": {
       return { ...state, status: "loading" };
@@ -36,9 +35,8 @@ const markersReducer = (state = initialState, action) => {
         ...state,
         currentMarkers: {
           ...state.currentMarkers,
-          [action._id]: {
-            ...state.currentMarkers[action._id],
-            votes: state.currentMarkers[action._id].votes + action.voteValue,
+          [action.marker._id]: {
+            ...action.marker,
           },
         },
         status: "idle",

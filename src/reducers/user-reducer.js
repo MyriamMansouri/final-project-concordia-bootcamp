@@ -1,28 +1,48 @@
 const initialState = {
   currentUser: null,
   status: "idle",
+  error: null,
 };
 
 const userReducer = (state = initialState, action) => {
+
   switch (action.type) {
     case "REQUEST_USER": {
-      return { ...state, status: "loading" };
+      return { ...state, status: "loading", error: null };
     }
     case "RECEIVE_USER": {
       return {
         ...state,
         currentUser: action.user,
         status: "idle",
+        error: null,
       };
     }
     case "RECEIVE_USER_ERROR": {
-      return { ...state, status: "error" };
+      return { ...state, status: "error", error: action.error };
     }
     case "ADD_USER": {
       return {
         ...state,
         currentUser: action.user,
         status: "idle",
+        error: null,
+      };
+    }
+    case "ADD_USER_ERROR": {
+      return {
+        ...state,
+        currentUser: null,
+        status: "error",
+        error: action.error,
+      };
+    }
+    case "UPDATE_USER": {
+      return {
+        ...state,
+        currentUser: action.user,
+        status: "idle",
+        error: null,
       };
     }
     case "RESET_USER": {
@@ -42,9 +62,13 @@ export const checkIfLoggedIn = (state) => {
 };
 
 export const getStatus = (state) => {
-  return state.user.status 
-}
+  return state.user.status;
+};
 
 export const getUser = (state) => {
-  return state.user.currentUser 
-}
+  return state.user.currentUser;
+};
+
+export const getError = (state) => {
+  return state.user.error;
+};

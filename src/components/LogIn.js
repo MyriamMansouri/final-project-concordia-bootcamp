@@ -1,16 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "./Buttons/Button";
-import { Label, Input } from "./StyledFormComponents";
+import { Label, Input } from "./Forms/StyledFormComponents";
 import { useDispatch, useSelector } from "react-redux";
 import { requestUser, receiveUser, receiveUserError } from "../actions";
-import { getStatus, getUser } from "../reducers/user-reducer";
+import { getStatus, getUser, getError } from "../reducers/user-reducer";
 import Spinner from "./Spinner";
+import Error from './Error'
 
 const LogIn = () => {
   const dispatch = useDispatch();
+
   const status = useSelector(getStatus);
+  const error = useSelector(getError);
   const user = useSelector(getUser);
+  
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -32,10 +36,10 @@ const LogIn = () => {
           dispatch(receiveUser(data.user));
           window.location.href = `/`;
         } else {
-          throw new Error(data.message);
+         throw {message : data.message}
         }
       })
-      .catch((err) => dispatch(receiveUserError()));
+      .catch((err) => dispatch(receiveUserError(err)));
   };
 
   return (
@@ -73,6 +77,7 @@ const LogIn = () => {
             <Button>LOG IN</Button>
           </form>
           <Link to="/signup">Sign up</Link>
+          {status==='error' && error && <Error>{error.message}</Error>}
         </section>
       )}
     </>

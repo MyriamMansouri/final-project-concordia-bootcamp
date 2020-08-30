@@ -18,6 +18,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .catch((err) => console.log(err));
+mongoose.set("useFindAndModify", false);
 
 const app = express();
 

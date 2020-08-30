@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const initialize = (passport) => {
   const authenticateUser = async (email, password, done) => {
-    const user = await User.findOne({ email }).exec();
+    const user = await User.findOne({ email }).select("+password").exec();
 
     if (!user) {
       return done(null, false, { message: "No user with that email." });
