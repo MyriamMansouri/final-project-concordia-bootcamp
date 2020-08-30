@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/user-reducer";
 import { voteMarker, updateUser } from "../actions";
 import SmallCard from "./Cards/SmallCard";
-
 import VoteBtn from "./Buttons/VoteBtn";
+import { COLORS } from "./assets/styles";
 
 const CustomInfobox = ({ marker }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(getUser);
-
+  console.log(currentUser);
   const {
     lat,
     lng,
@@ -84,6 +84,17 @@ const CustomInfobox = ({ marker }) => {
     const downvotes = downvoteUsers ? Object.keys(downvoteUsers).length : 0;
     return upvotes - downvotes;
   };
+  const disableVoteBtn = (voteArray, _id) => {
+    // if user didn't vote ever => both btns are enabled
+    if (!currentUser.upvotedMarkers && !currentUser.downvotedMarkers) {
+      return false;
+    }
+    // if marker's id in array btn disabled
+    if (voteArray && voteArray[_id]) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <InfoBox
@@ -97,23 +108,61 @@ const CustomInfobox = ({ marker }) => {
     >
       <SmallCard>
         {url && <Img src={url} alt="Marker illustrative pic" />}
-        <VoteBtn ref={UpvoteRef}>Up</VoteBtn>
-        {votes()}
-        <VoteBtn ref={DownvoteRef}>Down</VoteBtn>
-        <Title>{title}</Title>
-        <p>{description}</p>
+        <Wrapper>
+          <TextWrapper>
+            {" "}
+            <Title>{title}</Title> <p>{description}</p>
+          </TextWrapper>
+
+          <BtnWrapper>
+            <VoteBtn
+              ref={UpvoteRef}
+              disabled={disableVoteBtn(currentUser.upvotedMarkers, _id)}
+              type="up"
+            >
+              Up
+            </VoteBtn>
+            {votes()}
+            <VoteBtn
+              ref={DownvoteRef}
+              disabled={disableVoteBtn(currentUser.downvotedMarkers, _id)}
+              type="down"
+            >
+              Down
+            </VoteBtn>
+          </BtnWrapper>
+        </Wrapper>
       </SmallCard>
     </InfoBox>
   );
 };
 
 const Img = styled.img`
+  width: 270px;
   height: 200px;
 `;
 
 const Title = styled.h2`
   font-weight: bold;
-  margin: 10px 0;
+  margin-bottom: 10px;
+`;
+
+const BtnWrapper = styled.div`
+  font-size: 1rem;
+  margin: 10px;
+  text-align:center;
+  border:solid 1px ${COLORS.lightText};
+  border-radius:20px;
+`;
+
+const TextWrapper = styled.div`
+  padding: 20px 0 10px 10px;
+  width: 100%;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 export default CustomInfobox;

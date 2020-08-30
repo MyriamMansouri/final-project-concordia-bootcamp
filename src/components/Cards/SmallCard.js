@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { SPACING } from "../assets/styles";
+import { COLORS } from "../assets/styles";
 
 const SmallCard = ({ children }) => {
   return <CardDiv>{children}</CardDiv>;
@@ -9,10 +9,10 @@ const SmallCard = ({ children }) => {
 export default SmallCard;
 
 const CardDiv = styled.div`
-  width: 300px;
+  width: 270px;
   min-height: 200px;
   display: flex;
   flex-flow: column nowrap;
   background-color: #ffffff;
-  padding: 10px;
+  border: 1px solid ${COLORS.lightText};
 `;

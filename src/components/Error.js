@@ -7,7 +7,7 @@ const Error = ({ children }) => {
 };
 
 const Wrapper = styled.div`
-  color: ${COLORS.error};
+  color: ${COLORS.bad};
   margin: 10px 0;
 `;
 
