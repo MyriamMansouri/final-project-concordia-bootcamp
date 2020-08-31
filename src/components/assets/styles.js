@@ -1,12 +1,12 @@
 export const COLORS = {
   text: "rgba(53, 53, 53, 1)",
   lightText: "rgba(33, 33, 33, 0.1)",
-  primary: "#FF5252", // bleu foncé
-  accent: "#536DFE", // rose foncé
+  primary: "#5d00ff", // bleu foncé
+  accent: "#ff2204b3", // rose foncé
   bad: "crimson",
   good: 'green'
 };
 
 export const SPACING = {
-  spacing: "30px 20px",
+  spacing: "50px 20px 20px 20px",
 };

@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Button from "./Buttons/Button";
-import { Label, Input } from "./Forms/StyledFormComponents";
+
 import { useDispatch, useSelector } from "react-redux";
 import { requestUser, receiveUser, receiveUserError } from "../actions";
 import { getStatus, getUser, getError } from "../reducers/user-reducer";
+
+import { Label, Input } from "./Forms/StyledFormComponents";
 import Spinner from "./Spinner";
-import Error from './Error'
+import Error from "./Error";
+import { Title1, Text } from "./Misc/typo";
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -14,7 +17,7 @@ const LogIn = () => {
   const status = useSelector(getStatus);
   const error = useSelector(getError);
   const user = useSelector(getUser);
-  
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -34,9 +37,9 @@ const LogIn = () => {
       .then((data) => {
         if (data.status === 200) {
           dispatch(receiveUser(data.user));
-          window.location.href = `/`;
+          window.location.href = `/map`;
         } else {
-         throw Error ({message : data.message})
+          throw Error({ message: data.message });
         }
       })
       .catch((err) => dispatch(receiveUserError(err)));
@@ -47,7 +50,7 @@ const LogIn = () => {
       {status === "loading" && <Spinner />}
       {status !== "loading" && !user && (
         <section>
-          <h1>Login</h1>
+          <Title1>Login</Title1>
           <form onSubmit={handleSubmit}>
             <div>
               <Label htmlFor="email">Email</Label>
@@ -74,10 +77,12 @@ const LogIn = () => {
               />
             </div>
 
-            <Button>LOG IN</Button>
+            <Button style={{ margin: "40px 0 20px", width: "100%" }}>LOG IN</Button>
           </form>
-          <Link to="/signup">Sign up</Link>
-          {status==='error' && error && <Error>{error.message}</Error>}
+          <Text>
+            Don't have an account ? <Link to="/signup">Sign up</Link>.
+          </Text>
+          {status === "error" && error && <Error>{error.message}</Error>}
         </section>
       )}
     </>

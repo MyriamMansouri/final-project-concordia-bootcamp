@@ -6,8 +6,9 @@ import { getUser } from "../reducers/user-reducer";
 import { voteMarker, updateUser } from "../actions";
 import SmallCard from "./Cards/SmallCard";
 import VoteBtn from "./Buttons/VoteBtn";
-import Img from './Misc/Img'
+import Img from "./Misc/Img";
 import { COLORS } from "./assets/styles";
+import { Title3 } from "./Misc/typo";
 
 const CustomInfobox = ({ marker }) => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const CustomInfobox = ({ marker }) => {
     if (vote) {
       fetch(`api/markers/${_id}`, {
         method: "PUT",
-        body: JSON.stringify({ action :vote, userId: currentUser._id }),
+        body: JSON.stringify({ action: vote, userId: currentUser._id }),
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -45,7 +46,7 @@ const CustomInfobox = ({ marker }) => {
             // update
             fetch(`api/users/${currentUser._id}`, {
               method: "PUT",
-              body: JSON.stringify({ action : vote, markerId: _id }),
+              body: JSON.stringify({ action: vote, markerId: _id }),
               headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -111,7 +112,7 @@ const CustomInfobox = ({ marker }) => {
         {url && <Img url={url} />}
         <Wrapper>
           <TextWrapper>
-            <Title>{title}</Title> <p>{description}</p>
+            <Title3>{title}</Title3> <p>{description}</p>
           </TextWrapper>
 
           <BtnWrapper>
@@ -137,17 +138,12 @@ const CustomInfobox = ({ marker }) => {
   );
 };
 
-const Title = styled.h2`
-  font-weight: bold;
-  margin-bottom: 10px;
-`;
-
 const BtnWrapper = styled.div`
   font-size: 1rem;
   margin: 10px;
-  text-align:center;
-  border:solid 1px ${COLORS.lightText};
-  border-radius:20px;
+  text-align: center;
+  border: solid 1px ${COLORS.lightText};
+  border-radius: 20px;
 `;
 
 const TextWrapper = styled.div`

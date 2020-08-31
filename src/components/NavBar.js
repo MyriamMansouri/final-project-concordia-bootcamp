@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { COLORS } from "./assets/styles";
 import Card from "./Cards/Card";
 
-
 const NavBar = () => {
   const isLoggedin = useSelector(checkIfLoggedIn);
   const [open, setOpen] = React.useState(false);
@@ -18,18 +17,18 @@ const NavBar = () => {
       <Card open={open} style={styleCard} side="right">
         <nav>
           <ul>
-            <Li>
-              <NavLink
-                exact
-                to="/"
-                onClick={() => setOpen(!open)}
-                activeClassName="selected"
-              >
-                {isLoggedin ? "Map" : "Home"}
-              </NavLink>
-            </Li>
             {!isLoggedin && (
               <>
+                <Li>
+                  <NavLink
+                    exact
+                    to="/"
+                    onClick={() => setOpen(!open)}
+                    activeClassName="selected"
+                  >
+                    Home
+                  </NavLink>
+                </Li>
                 <Li>
                   <NavLink
                     to="/signup"
@@ -53,6 +52,15 @@ const NavBar = () => {
 
             {isLoggedin && (
               <>
+                <Li>
+                  <NavLink
+                    to="/map"
+                    onClick={() => setOpen(!open)}
+                    activeClassName="selected"
+                  >
+                    Map
+                  </NavLink>
+                </Li>
                 <Li>
                   <NavLink
                     to="/users/me"

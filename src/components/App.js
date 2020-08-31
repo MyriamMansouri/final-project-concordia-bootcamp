@@ -10,6 +10,7 @@ import Homepage from "../pages/Homepage";
 import NavBar from "./NavBar";
 import MyProfile from "./MyProfile";
 import { checkIfLoggedIn } from "../reducers/user-reducer";
+import Map from "./Map";
 
 const App = () => {
   const isLoggedIn = useSelector(checkIfLoggedIn);
@@ -28,12 +29,16 @@ const App = () => {
           <Route exact path="/signup">
             <SignUp />
           </Route>
-          <Route exact path="/users/me">
-            {isLoggedIn ? <MyProfile /> : <Homepage />}
-          </Route>
-          <Route exact path="/users/:userId">
-            Profile
-          </Route>
+          {isLoggedIn && (
+            <>
+              <Route exact path="/users/me">
+                <MyProfile />
+              </Route>
+              <Route exact path="/map">
+                <Map />
+              </Route>
+            </>
+          )}
           <Route exact path="/*">
             <FourOhFour />
           </Route>

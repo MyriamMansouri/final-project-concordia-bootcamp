@@ -20,8 +20,9 @@ const MarkerSection = ({ markerIds }) => {
 };
 
 const Wrapper = styled.div`
-  overflow-x: scroll;
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
 export default MarkerSection;

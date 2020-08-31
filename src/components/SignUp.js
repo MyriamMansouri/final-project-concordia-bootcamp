@@ -2,11 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getError, getStatus,getUser } from "../reducers/user-reducer";
+import { getError, getStatus, getUser } from "../reducers/user-reducer";
 import { addUser, receiveUserError, requestUser } from "../actions";
 
 import Button from "./Buttons/Button";
 import { Label, Input } from "./Forms/StyledFormComponents";
+import { Title1, Text } from "./Misc/typo";
+
 import Error from "./Error";
 import Spinner from "./Spinner";
 
@@ -49,7 +51,7 @@ const SignUp = () => {
       ) : (
         !user && (
           <>
-            <h1>Sign up</h1>
+            <Title1>Sign up</Title1>
             <form onSubmit={handleSubmit}>
               <div>
                 <Label htmlFor="email">What's your email</Label>
@@ -88,9 +90,17 @@ const SignUp = () => {
                 />
               </div>
 
-              <Button theme="accent">SIGN UP</Button>
+              <Button
+                theme="accent"
+                style={{ margin: "40px 0 20px", width: "100%" }}
+              >
+                SIGN UP
+              </Button>
             </form>
-            <Link to="/login">Log in</Link>
+            <Text>
+              Have an account? <Link to="/login">Log in</Link>.
+            </Text>
+
             {error && <Error>{error.message}</Error>}
           </>
         )

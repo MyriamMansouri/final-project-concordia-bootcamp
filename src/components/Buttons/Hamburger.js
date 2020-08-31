@@ -16,7 +16,7 @@ const Hamburger = ({ open, setOpen }) => {
           src={
             isLoggedin && currentUser.avatarUrl
               ? currentUser.avatarUrl
-              : "/assets/avatars/default-user.png"
+              : "/assets/misc/default-user.png"
           }
         />
       )}
@@ -38,6 +38,9 @@ const Usericon = styled.img`
   &.toggled {
     opacity: 0;
   }
+  border-radius: 100%;
+  background-color: #ffffff;
+  border: 2px solid ${COLORS.lightText};
 `;
 const NavBtn = styled(UnstyledButton)`
   cursor: pointer;
