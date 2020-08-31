@@ -1,14 +1,14 @@
 import React from "react";
-import { ChevronUp, ChevronDown } from "../Icons";
+import { Happy, Sad } from "../Icons";
 import styled from "styled-components";
 import { COLORS } from "../assets/styles";
 
 const VoteBtn = React.forwardRef(({ disabled, type }, ref) => (
   <Btn ref={ref} disabled={disabled} type={type}>
     {type === "up" ? (
-      <ChevronUp style={{ color: disabled ? COLORS.good : COLORS.text }} />
+      <Happy style={{ color: disabled ? COLORS.good : COLORS.text }} />
     ) : (
-      <ChevronDown style={{ color: disabled ? COLORS.bad : COLORS.text }} />
+      <Sad style={{ color: disabled ? COLORS.bad : COLORS.text }} />
     )}
   </Btn>
 ));

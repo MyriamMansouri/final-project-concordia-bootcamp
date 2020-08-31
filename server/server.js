@@ -41,6 +41,10 @@ app.use("/images", express.static(path.join(__dirname, "../public/assets")));
 app.use("/api/users", users);
 app.use("/api/markers", markers);
 
+// real routes from FE
+app.use("/map", (req, res) => res.status(200).json({message:'yay'}));
+app.use("/users/me", (req, res) => res.status(204).send());
+
 //404
 app.get("*", (req, res) => {
   res.status(404).json({

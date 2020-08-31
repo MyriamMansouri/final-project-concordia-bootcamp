@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 const Profile = ({ user }) => {
   const { name, upvotedMarkers, createdMarkers } = user;
-  console.log(user);
   return (
     <Card>
       <Wrapper>

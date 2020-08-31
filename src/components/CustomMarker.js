@@ -1,9 +1,16 @@
 import React, { useEffect } from "react";
 import { Marker } from "@react-google-maps/api";
 import CustomInfobox from "./CustomInfobox";
+import UserIcon from "./assets/user-marker.svg";
+import icon from "./assets/marker.svg";
 
-const CustomMarker = ({ marker, closeInfoBoxes, setCloseInfoBoxes, icon }) => {
-  
+const CustomMarker = ({
+  marker,
+  closeInfoBoxes,
+  setCloseInfoBoxes,
+  createdByCurrUser,
+  clusterer
+}) => {
   const { lat, lng } = marker;
 
   const [open, setOpen] = React.useState(false);
@@ -18,9 +25,8 @@ const CustomMarker = ({ marker, closeInfoBoxes, setCloseInfoBoxes, icon }) => {
   // then open the targetted infobox
   const handleMouseDown = () => {
     setCloseInfoBoxes(true);
-
   };
-  
+
   // reset closeInfoBoxes
   const handleMouseUp = () => {
     setOpen(!open);
@@ -31,11 +37,12 @@ const CustomMarker = ({ marker, closeInfoBoxes, setCloseInfoBoxes, icon }) => {
     <Marker
       key={marker._id}
       position={{ lat, lng }}
+      clusterer={clusterer}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
-      icon={icon}
+      icon={createdByCurrUser ? UserIcon : icon}
     >
-      {open && <CustomInfobox marker={marker}/>}
+      {open && <CustomInfobox marker={marker} />}
     </Marker>
   );
 };

@@ -61,7 +61,7 @@ const CustomInfobox = ({ marker }) => {
         })
         .catch((err) => console.log(err));
     }
-  }, [vote]);
+  }, [vote, _id, currentUser._id, dispatch]);
 
   const onLoad = () => {
     UpvoteRef.current.addEventListener("click", function () {

@@ -54,7 +54,7 @@ const NavBar = () => {
               <>
                 <Li>
                   <NavLink
-                    to="/map"
+                    to={"/map"}
                     onClick={() => setOpen(!open)}
                     activeClassName="selected"
                   >

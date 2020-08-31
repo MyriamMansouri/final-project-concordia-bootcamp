@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getError, getStatus, getUser } from "../reducers/user-reducer";
@@ -14,6 +14,7 @@ import Spinner from "./Spinner";
 
 const SignUp = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector(getUser);
   const status = useSelector(getStatus);
   const error = useSelector(getError);
@@ -36,10 +37,10 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 201) {
-          window.location.href = "/";
           dispatch(addUser(data.user));
+          history.push("/map");
         } else {
-          throw { message: data.message };
+          dispatch(receiveUserError({ message: data.message }));
         }
       })
       .catch((err) => dispatch(receiveUserError(err)));

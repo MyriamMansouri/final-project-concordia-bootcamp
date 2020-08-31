@@ -1,10 +1,11 @@
 import React from "react";
 import Img from "../Misc/Img";
 import styled from "styled-components";
-import { Title3 } from "../Misc/typo";
+//import { Title3 } from "../Misc/typo";
 
 const MarkerThumbnail = ({ marker }) => {
-  const { url, title } = marker;
+  // const { url, title } = marker;
+  const { url } = marker;
 
   return (
     <Wrapper>
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const Title = styled(Title3)`
+/*const Title = styled(Title3)`
   text-align: center;
-`;
+`;*/
 export default MarkerThumbnail;

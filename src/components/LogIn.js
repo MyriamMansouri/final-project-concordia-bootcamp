@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Button from "./Buttons/Button";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { Title1, Text } from "./Misc/typo";
 
 const LogIn = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const status = useSelector(getStatus);
   const error = useSelector(getError);
@@ -37,9 +38,9 @@ const LogIn = () => {
       .then((data) => {
         if (data.status === 200) {
           dispatch(receiveUser(data.user));
-          window.location.href = `/map`;
+          history.push("/map");
         } else {
-          throw Error({ message: data.message });
+          dispatch(receiveUserError({ message: data.message }));
         }
       })
       .catch((err) => dispatch(receiveUserError(err)));
@@ -77,7 +78,9 @@ const LogIn = () => {
               />
             </div>
 
-            <Button style={{ margin: "40px 0 20px", width: "100%" }}>LOG IN</Button>
+            <Button style={{ margin: "40px 0 20px", width: "100%" }}>
+              LOG IN
+            </Button>
           </form>
           <Text>
             Don't have an account ? <Link to="/signup">Sign up</Link>.

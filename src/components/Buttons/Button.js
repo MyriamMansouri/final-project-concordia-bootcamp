@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { COLORS, SPACING } from "../assets/styles";
+import { COLORS } from "../assets/styles";
 
 const Button = ({ children, theme, style }) => {
   return (

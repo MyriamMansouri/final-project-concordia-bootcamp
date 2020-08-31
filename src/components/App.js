@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import GlobalStyle from "./GlobalStyle";
@@ -11,6 +16,7 @@ import NavBar from "./NavBar";
 import MyProfile from "./MyProfile";
 import { checkIfLoggedIn } from "../reducers/user-reducer";
 import Map from "./Map";
+import Card from './Cards/Card'
 
 const App = () => {
   const isLoggedIn = useSelector(checkIfLoggedIn);
@@ -21,7 +27,7 @@ const App = () => {
         <NavBar />
         <Switch>
           <Route exact path="/">
-            <Homepage />
+            {isLoggedIn ? <Redirect to="/map" /> : <Homepage />}
           </Route>
           <Route exact path="/login">
             <LogIn />
@@ -29,16 +35,13 @@ const App = () => {
           <Route exact path="/signup">
             <SignUp />
           </Route>
-          {isLoggedIn && (
-            <>
-              <Route exact path="/users/me">
-                <MyProfile />
-              </Route>
-              <Route exact path="/map">
-                <Map />
-              </Route>
-            </>
-          )}
+          <Route exact path="/users/me">
+            {isLoggedIn ? <MyProfile /> : <Card>You should be logged in to see this page</Card>}
+          </Route>
+          <Route exact path="/map">
+            {isLoggedIn ? <Map /> : <Card>You should be logged in to see this page</Card>}
+
+          </Route>
           <Route exact path="/*">
             <FourOhFour />
           </Route>

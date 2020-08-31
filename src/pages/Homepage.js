@@ -2,7 +2,6 @@ import React from "react";
 import Map from "../components/Map";
 import { useSelector } from "react-redux";
 import { checkIfLoggedIn } from "../reducers/user-reducer";
-import Card from "../components/Cards/Card";
 import styled from "styled-components";
 
 const Homepage = () => {
@@ -28,7 +27,7 @@ const Wrapper = styled.div`
   align-items: center;
 
   font-size: 10rem;
-  background: linear-gradient(to top, #ff2204b3, #fbffc5 );
+  background: linear-gradient(to top, #f5523c, #e3e6ff );
 `;
 
 const Brand = styled.div`

@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { resetUser } from "../actions";
 
@@ -6,6 +7,7 @@ import UnstyledButton from "./Buttons/UnstyledButton";
 
 const LogOut = ({setOpen}) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleClick = () => {
     fetch("/api/users/logout")
@@ -13,9 +15,10 @@ const LogOut = ({setOpen}) => {
       .then((data) => {
         if (data.status === 200) {
           dispatch(resetUser());
-          window.location.href='/'
+          setOpen(false)
+          history.push("/");
         }
-        setOpen(false)
+        
       })
       .catch((err) => console.log(err));
   };

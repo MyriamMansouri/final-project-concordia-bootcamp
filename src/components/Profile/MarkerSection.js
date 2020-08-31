@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const MarkerSection = ({ markerIds }) => {
   const markers = useSelector(getMarkers);
-
+console.log(markers)
   return (
     <Wrapper>
       {Object.keys(markerIds).map((markerId) => (

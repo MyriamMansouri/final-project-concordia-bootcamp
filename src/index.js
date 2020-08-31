@@ -31,12 +31,11 @@ fetch("/api/users/user")
   });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <MobileWrapper background="wave">
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </MobileWrapper>
-  </React.StrictMode>,
+  <MobileWrapper background="wave">
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </MobileWrapper>,
+
   document.getElementById("root")
 );
