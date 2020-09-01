@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,oBACE,YACF,CACA,KACE,QAAS,CACT,SACF","file":"2.bb584d41.chunk.css","sourcesContent":["::-webkit-scrollbar {\r\n  display: none;\r\n}\r\nbody {\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n"]}
