@@ -5,7 +5,6 @@
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
-    "heroku-postbuild": "yarn && cd .. && yarn run build"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
