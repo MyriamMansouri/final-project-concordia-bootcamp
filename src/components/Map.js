@@ -42,7 +42,7 @@ const Map = () => {
   const [open, setOpen] = React.useState(false); // open new marker form
   const [markerPosition, setMarkerPostion] = React.useState(null);
   const [closeInfoBoxes, setCloseInfoBoxes] = React.useState(false);
-console.log(markers)
+
   const query = new URLSearchParams(useLocation().search);
 
   const positionUrlParams =
@@ -89,7 +89,6 @@ console.log(markers)
 
   React.useEffect(() => {
     // default value
-    console.log("here");
     dispatch(setCenter({ lat: 45.5, lng: -73.56 }));
   }, [dispatch]);
 
@@ -144,8 +143,7 @@ console.log(markers)
   };
 
   const checkIfupvotedMarker = (markerId) => {
-    console.log(markerId)
-    return Object.keys(currentUser.upvotedMarkers).includes(markerId);
+    return currentUser.upvotedMarkers && Object.keys(currentUser.upvotedMarkers).includes(markerId);
   };
 
   return (
@@ -156,7 +154,7 @@ console.log(markers)
       <LongPressable
         onShortPress={onShortPress}
         onLongPress={onLongPress}
-        longPressTime={700}
+        longPressTime={1000}
       >
         <GoogleMap
           mapContainerStyle={containerStyle}

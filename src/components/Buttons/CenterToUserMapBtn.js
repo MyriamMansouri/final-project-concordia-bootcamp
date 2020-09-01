@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import UnstyledButton from "./UnstyledButton";
 import { setCenter } from "../../actions";
-import { COLORS } from "../assets/styles";
 import { Crosshair } from "../Icons";
 import { useHistory } from "react-router-dom";
 import { getUserPosition } from "../../reducers/map-reducer";
@@ -13,7 +12,7 @@ const CenterToUserMapBtn = () => {
   const dispatch = useDispatch();
 
   const userPosition = useSelector(getUserPosition);
-  console.log(userPosition)
+
   return (
     <Btn
       onClick={() => {

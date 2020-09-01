@@ -17,7 +17,9 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
+  .then(() => console.log("Database Connected Successfully"))
   .catch((err) => console.log(err));
+  
 mongoose.set("useFindAndModify", false);
 
 const app = express();
