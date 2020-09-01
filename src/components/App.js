@@ -16,7 +16,6 @@ import NavBar from "./NavBar";
 import MyProfile from "./MyProfile";
 import { checkIfLoggedIn } from "../reducers/user-reducer";
 import Map from "./Map";
-import Card from './Cards/Card'
 
 const App = () => {
   const isLoggedIn = useSelector(checkIfLoggedIn);
@@ -36,15 +35,12 @@ const App = () => {
             <SignUp />
           </Route>
           <Route exact path="/users/me">
-            {isLoggedIn ? <MyProfile /> : <Card>You should be logged in to see this page</Card>}
+            {isLoggedIn ? <MyProfile /> :<Redirect to="/" />}
           </Route>
           <Route exact path="/map">
-            {isLoggedIn ? <Map /> : <Card>You should be logged in to see this page</Card>}
-
+            {isLoggedIn ? <Map /> : <Redirect to="/" />}
           </Route>
-          <Route exact path="/*">
-            <FourOhFour />
-          </Route>
+          <Route component={FourOhFour} />
         </Switch>
       </Router>
       <GlobalStyle />

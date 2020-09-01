@@ -41,17 +41,17 @@ app.use("/images", express.static(path.join(__dirname, "../public/assets")));
 app.use("/api/users", users);
 app.use("/api/markers", markers);
 
-// real routes from FE
-app.use("/map", (req, res) => res.status(200).json({message:'yay'}));
-app.use("/users/me", (req, res) => res.status(204).send());
+// default routing
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../public/index.html'), function(err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+})
 
-//404
-app.get("*", (req, res) => {
-  res.status(404).json({
-    status: 404,
-    message: "Sorry we couldn't find what you were looking for...",
-  });
-});
+// real routes from FE
+
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

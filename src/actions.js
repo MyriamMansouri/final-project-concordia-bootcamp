@@ -51,3 +51,13 @@ export const voteMarker = (marker) => ({
   marker
 });
 
+//---------------Map actions-----------------
+export const setCenter = (center)=> ({
+  type: "SET_CENTER",
+  center
+})
+
+export const setUserPosition = (userPosition)=> ({
+  type: "SET_USER_POSITION",
+  userPosition
+})

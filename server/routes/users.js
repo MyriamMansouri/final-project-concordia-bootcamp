@@ -129,6 +129,7 @@ router.get("/user", (req, res) => {
 
 // get any user
 router.get("/:_id", async (req, res) => {
+  console.log('ici')
   const { _id } = req.params;
   try {
     const user = await User.findById(_id);
