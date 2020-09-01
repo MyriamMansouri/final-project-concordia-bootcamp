@@ -19,7 +19,7 @@ mongoose
   })
   .then(() => console.log("Database Connected Successfully"))
   .catch((err) => console.log(err));
-  
+
 mongoose.set("useFindAndModify", false);
 
 const app = express();
@@ -39,6 +39,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/", express.static(path.join(__dirname, "../")));
 app.use("/images", express.static(path.join(__dirname, "../public/assets")));
 app.use("/api/users", users);
 app.use("/api/markers", markers);
