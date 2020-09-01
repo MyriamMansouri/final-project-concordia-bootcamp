@@ -48,14 +48,6 @@ app.use("/images", express.static(path.join(__dirname, "../public/assets")));
 app.use("/api/users", users);
 app.use("/api/markers", markers);
 
-
-if (process.env.NODE_ENV === "production"){
-  app.use(express.static("build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname,  "../build", "index.html"));
-  });
-}
-
 // default routing
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../public/index.html'), function(err) {
