@@ -4,7 +4,7 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js"
+    "start": "set NODE_ENV=production && node server.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
