@@ -154,7 +154,7 @@ const Map = () => {
       <LongPressable
         onShortPress={onShortPress}
         onLongPress={onLongPress}
-        longPressTime={1000}
+        longPressTime={1700}
       >
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -165,7 +165,7 @@ const Map = () => {
             streetViewControl: false,
             zoomControl: false,
             styles: mapStyles,
-            mapTypeId: "satellite",
+            //mapTypeId: "satellite",
           }}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
