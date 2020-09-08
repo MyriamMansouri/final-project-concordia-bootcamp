@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cloudinary = require('cloudinary')
 const passport = require("passport");
 const morgan = require("morgan");
 const flash = require("connect-flash");
@@ -22,6 +23,12 @@ mongoose
   .catch((err) => console.log(err));
 
 mongoose.set("useFindAndModify", false);
+
+cloudinary.config({
+  cloud_name: "hcrafbjaa",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 

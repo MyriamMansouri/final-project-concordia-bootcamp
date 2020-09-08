@@ -22,6 +22,11 @@ const SignUp = () => {
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
 
+  //on page load, reset user error
+  React.useEffect(() => {
+    dispatch(receiveUserError(null));
+  }, []);
+
   const handleSubmit = (e) => {
     dispatch(requestUser());
     e.preventDefault();
