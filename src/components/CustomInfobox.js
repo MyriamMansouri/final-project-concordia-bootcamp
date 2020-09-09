@@ -31,7 +31,7 @@ const CustomInfobox = ({ marker }) => {
 
   React.useEffect(() => {
     if (vote) {
-      fetch(`api/markers/${_id}`, {
+      fetch(`/api/markers/${_id}`, {
         method: "PUT",
         body: JSON.stringify({ action: vote, userId: currentUser._id }),
         headers: {
@@ -44,7 +44,7 @@ const CustomInfobox = ({ marker }) => {
           if (data.status === 200) {
             dispatch(voteMarker(data.marker));
             // update
-            fetch(`api/users/${currentUser._id}`, {
+            fetch(`/api/users/${currentUser._id}`, {
               method: "PUT",
               body: JSON.stringify({ action: vote, markerId: _id }),
               headers: {

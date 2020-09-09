@@ -37,9 +37,10 @@ const App = () => {
           <Route exact path="/users/me">
             {isLoggedIn ? <MyProfile /> :<Redirect to="/" />}
           </Route>
-          <Route  path="/map">
+          <Route exact path="/map">
             {isLoggedIn ? <Map /> : <Redirect to="/" />}
           </Route>
+          
           <Route component={FourOhFour} />
         </Switch>
       </Router>

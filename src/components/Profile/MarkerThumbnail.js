@@ -9,7 +9,7 @@ const MarkerThumbnail = ({ marker }) => {
   const { imgId, lat, lng } = marker;
 
   return (
-    <Link to={`/map?lat=${lat}&lng=${lng}`}>
+    <Link to={`/map/?lat=${lat}&lng=${lng}`}>
       <Wrapper >
       <Image cloudName="hcrafbjaa" publicId={imgId}>
             <Transformation width="175" height="175" crop="fill" quality="auto:eco" />
