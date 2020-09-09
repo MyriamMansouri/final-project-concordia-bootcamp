@@ -2,9 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { COLORS } from "../assets/styles";
 
-const Button = ({ children, theme, style }) => {
+const Button = ({ children, theme, style, disabled }) => {
+
   return (
-    <Btn theme={theme} style={style}>
+    <Btn disabled={disabled} theme={theme} style={style}>
       {children}
     </Btn>
   );

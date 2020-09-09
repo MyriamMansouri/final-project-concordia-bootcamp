@@ -11,7 +11,7 @@ const markerSchema = mongoose.Schema({
     required: true,
   },
 
-  public_id:String,
+  imgId:String,
   title: String,
   description: String,
   userId: String,

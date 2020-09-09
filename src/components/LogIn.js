@@ -25,7 +25,7 @@ const LogIn = () => {
   //on page load, reset user error
   React.useEffect(() => {
     dispatch(receiveUserError(null));
-  }, []);
+  }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

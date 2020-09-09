@@ -32,12 +32,11 @@ const containerStyle = {
 
 const Map = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
   const markers = useSelector(getMarkers);
   const currentUser = useSelector(getUser);
   const center = useSelector(getCenter);
   const userCoords = useSelector(getUserPosition);
-  const [map, setMap] = React.useState(null);
+  // const [map, setMap] = React.useState(null);
 
   const [open, setOpen] = React.useState(false); // open new marker form
   const [markerPosition, setMarkerPostion] = React.useState(null);
@@ -92,9 +91,9 @@ const Map = () => {
     dispatch(setCenter({ lat: 45.5, lng: -73.56 }));
   }, [dispatch]);
 
-  const handleLoad = React.useCallback(function callback(map) {
-    setMap(map);
-  }, []);
+  // const handleLoad = React.useCallback(function callback(map) {
+  //   setMap(map);
+  // }, []);
 
   // trigger infobox close when click anywhere outside infobox on the map
   // reset closeInfoBoxes on mouse up
@@ -169,7 +168,6 @@ const Map = () => {
           }}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
-          onLoad={handleLoad}
         >
           {/* current user position*/}
           <Marker

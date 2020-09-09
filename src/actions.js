@@ -41,6 +41,10 @@ export const receiveMarkersError = (error) => ({
   error
 });
 
+export const sendMarker = () => ({
+  type: "SEND_MARKER"
+});
+
 export const addMarker = (marker) => ({
   type: "ADD_MARKER",
   marker

@@ -2,6 +2,7 @@ import React from "react";
 import { addMarker, updateUser } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../reducers/user-reducer";
+import { sendMarkerStatus } from "../reducers/markers-reducer";
 import styled from "styled-components";
 import Card from "./Cards/Card";
 import Button from "./Buttons/Button";
@@ -23,6 +24,7 @@ const MarkerForm = ({ open, setOpen, position }) => {
   const [picture, setPicture] = React.useState(null);
   const [picUrl, setPicUrl] = React.useState("");
   const [error, setError] = React.useState("");
+  const [isDisabled, setIsDisabled] = React.useState(false);
 
   // each time for reopened, fields are cleared
   React.useEffect(() => {
@@ -31,6 +33,7 @@ const MarkerForm = ({ open, setOpen, position }) => {
     setPicture(null);
     setPicUrl("");
     setError("");
+    setIsDisabled(false)
   }, [open]);
 
   const onSubmit = (e) => {
@@ -43,6 +46,8 @@ const MarkerForm = ({ open, setOpen, position }) => {
     formData.append("lng", position.lng);
     formData.append("userId", _id);
 
+    // disable Send button while info gets transfered to BE
+    setIsDisabled(true);
     fetch("/api/markers", {
       method: "POST",
       body: formData,
@@ -75,7 +80,10 @@ const MarkerForm = ({ open, setOpen, position }) => {
           setError(data.message);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsDisabled(false);
+        console.log(err);
+      });
   };
 
   return (
@@ -117,7 +125,7 @@ const MarkerForm = ({ open, setOpen, position }) => {
                 placeholder="Add a description"
               />
             </div>
-            <Button>CREATE</Button>
+            <Button disabled={isDisabled}>CREATE</Button>
           </form>
           <Error>{error}</Error>
         </div>

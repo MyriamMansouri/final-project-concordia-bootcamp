@@ -22,7 +22,10 @@ const MarkerSection = ({ markerIds }) => {
 const Wrapper = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 175px 175px;
+  grid-template-rows: 175px 175px;
+  justify-items: center;
+  align-items: center;
 `;
 
 export default MarkerSection;

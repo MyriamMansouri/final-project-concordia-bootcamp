@@ -16,7 +16,7 @@ const Hamburger = ({ open, setOpen }) => {
           src={
             isLoggedin && currentUser.avatarUrl
               ? currentUser.avatarUrl
-              : "/assets/misc/default-user.jpg"
+              : "/assets/misc/default-user.png"
           }
         />
       )}

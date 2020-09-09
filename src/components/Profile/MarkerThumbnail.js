@@ -1,19 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import Img from "../Misc/Img";
+import {Image, Transformation} from 'cloudinary-react';
 import styled from "styled-components";
 //import { Title3 } from "../Misc/typo";
 
 const MarkerThumbnail = ({ marker }) => {
 
-  // const { url, title } = marker;
-  const { url, lat, lng } = marker;
+  const { imgId, lat, lng } = marker;
 
   return (
     <Link to={`/map?lat=${lat}&lng=${lng}`}>
       <Wrapper >
-        <Img url={url} />
+      <Image cloudName="hcrafbjaa" publicId={imgId}>
+            <Transformation width="175" height="175" crop="fill" quality="auto:eco" />
+          </Image>
       </Wrapper>
     </Link>
   );
@@ -23,7 +23,4 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-/*const Title = styled(Title3)`
-  text-align: center;
-`;*/
 export default MarkerThumbnail;

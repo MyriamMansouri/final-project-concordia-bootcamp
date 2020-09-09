@@ -76,7 +76,7 @@ router.post("/", upload.single("marker-pic"), async (req, res) => {
 
   try {
     // upload to cloudinary
-    const uploadRes = upload(req);
+    const uploadRes = await upload(req);
 
     const marker = new Marker({
       _id: new mongoose.Types.ObjectId(),
@@ -88,7 +88,7 @@ router.post("/", upload.single("marker-pic"), async (req, res) => {
       imgId: uploadRes.public_id,
     });
     await marker.save();
-    console.log(marker);
+
     res.status(201).json({
       status: 201,
       marker,

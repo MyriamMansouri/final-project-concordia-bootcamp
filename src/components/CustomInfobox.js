@@ -6,7 +6,7 @@ import { getUser } from "../reducers/user-reducer";
 import { voteMarker, updateUser } from "../actions";
 import SmallCard from "./Cards/SmallCard";
 import VoteBtn from "./Buttons/VoteBtn";
-import Img from "./Misc/Img";
+import {Image, Transformation} from 'cloudinary-react';
 import { COLORS } from "./assets/styles";
 import { Title3 } from "./Misc/typo";
 
@@ -17,7 +17,7 @@ const CustomInfobox = ({ marker }) => {
   const {
     lat,
     lng,
-    url,
+    imgId,
     title,
     description,
     _id,
@@ -109,7 +109,12 @@ const CustomInfobox = ({ marker }) => {
       onUnmount={onUnmount}
     >
       <SmallCard>
-        {url && <Img url={url} />}
+        {imgId && (
+          <Image cloudName="hcrafbjaa" publicId={imgId}>
+            <Transformation width="270" height="270" crop="fill" quality="auto:low" />
+          </Image>
+        )}
+
         <Wrapper>
           <TextWrapper>
             <Title3>{title}</Title3> <p>{description}</p>

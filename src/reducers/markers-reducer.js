@@ -18,6 +18,9 @@ const markersReducer = (state = initialState, action) => {
     case "RECEIVE_MARKERS_ERROR": {
       return { ...state, status: "error" };
     }
+    case "SEND_MARKER": {
+      return { ...state, status: "loading" };
+    }
     case "ADD_MARKER": {
       return {
         ...state,
@@ -54,4 +57,9 @@ export const getMarkers = (state) => {
   return state.markers.currentMarkers
     ? Object.values(state.markers.currentMarkers)
     : null;
+};
+
+export const sendMarkerStatus = (state) => {
+  console.log(state.markers.status)
+  return state.markers.status;
 };
