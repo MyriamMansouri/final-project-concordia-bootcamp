@@ -1,8 +1,8 @@
 export const COLORS = {
   text: "rgba(53, 53, 53, 1)",
   lightText: "rgba(33, 33, 33, 0.1)",
-  primary: "#5d00ff", // bleu foncé
-  accent: "#f5523c", // rose foncé
+  primary: "#5d00ff", // violet
+  accent: "#f5523c", // orange
   bad: "crimson",
   good: 'green'
 };
